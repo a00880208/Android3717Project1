@@ -8,6 +8,10 @@ import android.view.MenuItem;
 
 
 public class MyActivity extends Activity {
+    String poop = "hello there";
+    int numOfMothers = 100000;
+    long familyID = 72094;
+    int i = -2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
