@@ -13,6 +13,10 @@ public class MyActivity extends Activity {
     long familyID = 72094;
     int i = -2;
 
+    int i = 5;
+    char myChar = 'c';
+    double d = 3.493825;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
