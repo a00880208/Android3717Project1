@@ -10,7 +10,7 @@ import android.view.MenuItem;
 public class MyActivity extends Activity {
 
     int i = 5;
-    char myChar = c;
+    char myChar = 'c';
     double d = 3.493825;
 
     @Override
