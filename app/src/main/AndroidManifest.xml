@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ImageGridViewActivity"
+            android:label="@string/title_activity_image_grid_view" >
+        </activity>
+        <activity
+            android:name=".ImageSwipeViewActivity"
+            android:label="@string/title_activity_image_swipe_view"
+            android:parentActivityName=".ImageGridViewActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tobycatapps.c3717.cst.bcit.ca.android3717project1.ImageGridViewActivity" />
+        </activity>
     </application>
 
 </manifest>
