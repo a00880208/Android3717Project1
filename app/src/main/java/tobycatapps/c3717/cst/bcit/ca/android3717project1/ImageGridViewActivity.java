@@ -15,8 +15,14 @@ public class ImageGridViewActivity extends Activity {
     private static GridView mImageGridView;
 
     // starting intent keys and values
+    /** key in starting intent to value that holds an array of URIs of images to display */
     public static final String KEY_IMAGE_URIS = "KEY_IMAGE_URIS";
+
+    /** array of image URIs extracted from the starting intent */
     private String[] mImageURIs;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,7 @@ public class ImageGridViewActivity extends Activity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -48,6 +55,9 @@ public class ImageGridViewActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
     /**
      * initializes all GUI references of this activity; initializes value of the GUI reference with
