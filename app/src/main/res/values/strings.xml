@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_image_grid_view">ImageGridViewActivity</string>
     <string name="title_activity_image_swipe_view">ImageSwipeViewActivity</string>
+    <string name="title_activity_start_image_grid_view">StartImageGridViewActivity</string>
 
 </resources>

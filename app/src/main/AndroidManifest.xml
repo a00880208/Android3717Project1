@@ -30,6 +30,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tobycatapps.c3717.cst.bcit.ca.android3717project1.ImageGridViewActivity" />
         </activity>
+        <activity
+            android:name=".StartImageGridViewActivity"
+            android:label="@string/title_activity_start_image_grid_view" >
+        </activity>
     </application>
 
 </manifest>
