@@ -84,10 +84,12 @@ public class ImageGridViewActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -111,7 +113,7 @@ public class ImageGridViewActivity extends Activity {
     private void configureGUIWidgets() {
 
         // Add images to grid view (mImageGridView)
-        ImageAdapter imageAdapter = new ImageAdapter(mContext);
+        ImageAdapter<Bitmap> imageAdapter = new ImageAdapter<Bitmap>(mContext);
         mImageGridView.setAdapter(imageAdapter);
         for (String imageURI : mImageURIs) {
             ApplicationHandler.enqueueGetImageAtURITask(imageURI, imageAdapter);
@@ -124,14 +126,16 @@ public class ImageGridViewActivity extends Activity {
     // -------------------------------------------------------------------------
     // Inner classes
     // -------------------------------------------------------------------------
-    public class ImageAdapter extends ArrayAdapter {
+    /** ArrayAdapter; populates ListViews and GridViews with ImageViews. */
+    public class ImageAdapter<T extends Bitmap> extends ArrayAdapter<T> {
 
         private ImageAdapter(Context appContext) {
             super(appContext, android.R.layout.simple_list_item_1,
-                    new ArrayList<Bitmap>());
+                    new ArrayList<T>());
         }
 
-        // create a new ImageView for each item referenced by the Adapter
+        /** Create a new ImageView for each item referenced by the Adapter */
+        // TODO: make the ImageViews bigger or something.
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView imageView;
             if (convertView == null) {  // if it's not recycled, initialize some attributes
@@ -143,7 +147,7 @@ public class ImageGridViewActivity extends Activity {
                 imageView = (ImageView) convertView;
             }
 
-            imageView.setImageBitmap((Bitmap) getItem(position));
+            imageView.setImageBitmap(getItem(position));
             return imageView;
         }
     }
@@ -161,14 +165,15 @@ public class ImageGridViewActivity extends Activity {
          * Reference to imageAdapter to add bitmap to once image hosted at
          * mImageURI is decoded
          */
-        private ImageAdapter mImageAdapter;
+        private ImageAdapter<Bitmap> mImageAdapter;
 
         /**
          * Instantiates a getImageAtURITask, and dispatches it to the
          * ApplicationHandler for decoding, and things.
-         * @param imageURI
+         * @param imageURI URL to an image hosted on the internet somewhere
          */
-        public getImageAtURITask(String imageURI, ImageAdapter imageAdapter) {
+        public getImageAtURITask(String imageURI,
+                ImageAdapter<Bitmap> imageAdapter) {
             mImageURI = imageURI;
             mImageAdapter = imageAdapter;
         }
@@ -192,8 +197,7 @@ public class ImageGridViewActivity extends Activity {
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(input);
-                mDecodedBitmap = bitmap;
+                mDecodedBitmap = BitmapFactory.decodeStream(input);
 
                 // Send message to UI thread to add bitmap to UI
                 Message msg = ApplicationHandler.mHandler.obtainMessage(
@@ -214,7 +218,7 @@ public class ImageGridViewActivity extends Activity {
          */
         @Override
         public void updateUI() {
-            mImageAdapter.add(mDecodedBitmap);
+           mImageAdapter.add(mDecodedBitmap);
         }
     }
 }
