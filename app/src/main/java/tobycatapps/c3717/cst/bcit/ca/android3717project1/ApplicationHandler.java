@@ -5,35 +5,41 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
 
 /**
+ * ApplicationHandler is a singleton; only one of this instance should be
+ * instantiated for the lifetime of the app.
+ * This class contains a Handler (mHandler) which runs on the UI thread.
+ * Messages sent to this handler to make updates to the UI thread, or they can
+ * be delegated to a background, worker thread.
+ *
  * Created by Eric Tsang on 14/09/2014.
  */
 public class ApplicationHandler {
 
 
 
-    // CLASS VARIABLES
-    private static int uniqueMessageID = 0;
 
     // -------------------------------------------------------------------------
     // DEFINE STATIC CONSTANTS
     // -------------------------------------------------------------------------
-    /*
+    // ThreadPoolExecutor constructor parameters
+    /**
      * Gets the number of available cores
      * (not always the same as the maximum number of cores)
      */
     private static final int NUMBER_OF_CORES =
             Runtime.getRuntime().availableProcessors();
 
-    // Sets the amount of time an idle thread waits before terminating
+    /** Sets the amount of time an idle thread waits before terminating */
     private static final int KEEP_ALIVE_TIME = 1;
 
-    // Sets the Time Unit to seconds
+    /** Sets the Time Unit to seconds */
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
 
     // Message types
@@ -58,20 +64,17 @@ public class ApplicationHandler {
     // -------------------------------------------------------------------------
     // INSTANTIATE STATIC SUPPORT OBJECTS
     // -------------------------------------------------------------------------
-    // A queue of Runnables instantiated as a LinkedBlockingQueue
+    /** A queue of Runnables instantiated as a LinkedBlockingQueue */
     private static final BlockingQueue<Runnable> workQueue =
             new LinkedBlockingQueue<Runnable>();
 
-    /*
-     *  Object references; references don't have to be instantiated every
-     *  time we need one.
-     */
-    private static Runnable mTempRunnable;
-
-    // A Handler object that's attached to the UI thread
+    /** Handler object that's attached to the UI thread */
     public static Handler mHandler;
 
-    // Creates a thread pool manager & instantiate one
+    /** Reference to the singleton ApplicationHandler */
+    public static final ApplicationHandler mApplicationHandler;
+
+    /** Creates a thread pool manager & instantiate one */
     private static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
             NUMBER_OF_CORES,       // Initial pool size
             NUMBER_OF_CORES,       // Max pool size
@@ -79,8 +82,8 @@ public class ApplicationHandler {
             KEEP_ALIVE_TIME_UNIT,
             workQueue);
 
-    // Instantiates a single ApplicationHandler
-    static { ApplicationHandler applicationHandler = new ApplicationHandler(); }
+    /** Instantiates a single ApplicationHandler */
+    static { mApplicationHandler = new ApplicationHandler(); }
 
 
 
@@ -105,6 +108,10 @@ public class ApplicationHandler {
             public void handleMessage(Message messageIn) {
                 switch (messageIn.what) {
 
+                    /*
+                     * Assumes that messageIn.obj implements Runnable. Executes
+                     * the Runnable's run method on a background worker thread.
+                     */
                     case ApplicationHandler.START_RUNNABLE_TASK:
 
                         // Adds task to the thread pool for execution on a
@@ -112,14 +119,19 @@ public class ApplicationHandler {
                         threadPool.execute((Runnable) messageIn.obj);
                         break;
 
+                    /*
+                     * Assumes that messageIn.obj implements UpdateUITask.
+                     * Executes the UpdateUITask's updateUI method on the UI
+                     * thread.
+                     */
                     case ApplicationHandler.UPDATE_UI_TASK:
 
                         // Runs task on the UI thread (this thread).
                         ((UpdateUITask) messageIn.obj).updateUI();
                         break;
 
+                    /* Pass along other messages from the UI */
                     default:
-                        /* Pass along other messages from the UI */
                         super.handleMessage(messageIn);
                         break;
                 }
@@ -133,11 +145,25 @@ public class ApplicationHandler {
     // -------------------------------------------------------------------------
     // INTERFACE METHODS
     // -------------------------------------------------------------------------
+
+    /**
+     * Instantiates a getImageAtURITask, and enqueues it in our message queue
+     * to be processed by mHandler.
+     *
+     * @param imageURI URL to an image hosted on the internet to be downloaded,
+     *        decoded, and added to the passed imageAdapter
+     * @param imageAdapter ImageAdapter that bitmaps are added to once they have
+     *        been downloaded and decoded.
+     */
     public static void enqueueGetImageAtURITask(String imageURI,
-            ImageGridViewActivity.ImageAdapter imageAdapter) {
+            ImageGridViewActivity.ImageAdapter<Bitmap> imageAdapter) {
+
+        // Instantiate the task
         ImageGridViewActivity.getImageAtURITask task =
                 new ImageGridViewActivity.getImageAtURITask(
                         imageURI, imageAdapter);
+
+        // Create a message, and enqueue it with the task into our message queue
         Message msg = ApplicationHandler.mHandler.obtainMessage(
                 ApplicationHandler.START_RUNNABLE_TASK, // Message.what
                 task                                    // Message.obj
@@ -158,6 +184,8 @@ public class ApplicationHandler {
      * the UI thread.
      */
     public interface UpdateUITask {
+
+        /** Contains code that should be run on the UI thread. */
         public void updateUI();
     }
 }
