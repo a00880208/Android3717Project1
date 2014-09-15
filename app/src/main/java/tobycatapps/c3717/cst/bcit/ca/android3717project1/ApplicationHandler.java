@@ -36,7 +36,7 @@ public class ApplicationHandler {
     private static final int NUMBER_OF_CORES =
             Runtime.getRuntime().availableProcessors();
 
-    /** Sets the amount of time an idle thread waits before terminating */
+    /** Sets amount of time an idle thread waits before terminating (seconds) */
     private static final int KEEP_ALIVE_TIME = 1;
 
     /** Sets the Time Unit to seconds */
@@ -179,9 +179,9 @@ public class ApplicationHandler {
     // -------------------------------------------------------------------------
     /**
      * Message type describing a message that needs to run on the UI thread;
-     * executed on the same thread as this class. Such message types must
-     * implement the UpdateUITask interface. The updateUI method will be run on
-     * the UI thread.
+     * executed on the same thread as this class (UI thread). Such message types
+     * must implement the UpdateUITask interface. The updateUI method will be
+     * run on the UI thread.
      */
     public interface UpdateUITask {
 

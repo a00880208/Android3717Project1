@@ -155,22 +155,23 @@ public class ImageGridViewActivity extends Activity {
     public static class getImageAtURITask implements Runnable,
             ApplicationHandler.UpdateUITask {
 
-        /** URL of the image that's on the internet download and decode. */
+        /** URL of the image that's on the internet to download and decode. */
         private String mImageURI;
 
-        /** Reference to decoded image hosted at mImageURI */
+        /** Reference to decoded image hosted at mImageURI. */
         private Bitmap mDecodedBitmap = null;
 
         /**
          * Reference to imageAdapter to add bitmap to once image hosted at
-         * mImageURI is decoded
+         * mImageURI is downloaded, and decoded.
          */
         private ImageAdapter<Bitmap> mImageAdapter;
 
         /**
-         * Instantiates a getImageAtURITask, and dispatches it to the
-         * ApplicationHandler for decoding, and things.
+         * Instantiates a getImageAtURITask
          * @param imageURI URL to an image hosted on the internet somewhere
+         * @param imageAdapter ArrayAdapter subclass that downloaded images will
+         *        be added to
          */
         public getImageAtURITask(String imageURI,
                 ImageAdapter<Bitmap> imageAdapter) {
