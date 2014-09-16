@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 
 public class ImageSwipeViewActivity extends Activity {
@@ -12,6 +13,8 @@ public class ImageSwipeViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_swipe_view);
+        ImageView image = (ImageView) findViewById(R.id.imageViewer);
+        openImage(image);
     }
 
 
@@ -33,4 +36,10 @@ public class ImageSwipeViewActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void openImage(ImageView image)
+    {
+        //image.setImageResource("");
+    }
+
 }
