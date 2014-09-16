@@ -10,8 +10,9 @@
 
     <ImageView
         android:id="@+id/bannerImage"
+        android:src="@drawable/ic_launcher"
         android:layout_width="match_parent"
-        android:layout_height="200dip" />
+        android:layout_height="100dip" />
 
     <Button
         android:id="@+id/btn_login"
