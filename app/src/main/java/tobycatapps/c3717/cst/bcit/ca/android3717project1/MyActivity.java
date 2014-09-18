@@ -1,10 +1,11 @@
 package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.View;
 
 
 public class MyActivity extends Activity {
@@ -32,5 +33,16 @@ public class MyActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void TemporaryButton(View view)
+    {
+        System.out.println("ALERT: Temporary Button");
+        Intent randomPetsIntent = new Intent(this, ImageSwipeViewActivity.class);
+        //Generate some seed for sudo randomness
+        //String url;
+        //url = "";
+        //intent.putExtra("URL",url);
+        startActivity(randomPetsIntent);
     }
 }

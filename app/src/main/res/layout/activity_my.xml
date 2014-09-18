@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_login"
         android:gravity="center"
+        android:onClick="TemporaryButton"
         />
 
     <Button

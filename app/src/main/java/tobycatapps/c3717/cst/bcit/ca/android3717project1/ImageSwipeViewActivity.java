@@ -9,12 +9,16 @@ import android.widget.ImageView;
 
 public class ImageSwipeViewActivity extends Activity {
 
+
+    ImageView image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_swipe_view);
-        ImageView image = (ImageView) findViewById(R.id.imageViewer);
-        openImage(image);
+        String url = "";
+        image = (ImageView) findViewById(R.id.imageViewer);
+        openImage(url,image);
     }
 
 
@@ -37,9 +41,9 @@ public class ImageSwipeViewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openImage(ImageView image)
+    public void openImage(String url,ImageView image)
     {
-        //image.setImageResource("");
+        image.setImageResource(R.drawable.ic_launcher);
     }
 
 }
