@@ -143,44 +143,6 @@ public class ApplicationHandler {
 
 
     // -------------------------------------------------------------------------
-    // INTERFACE METHODS
-    // -------------------------------------------------------------------------
-
-    /**
-     * Instantiates a getImageAtURITask, and enqueues it in our message queue
-     * to be processed by mHandler.
-     *
-     * @param imageURI URL to an image hosted on the internet to be downloaded,
-     *        decoded, and added to the passed imageAdapter
-     * @param imageAdapter ImageAdapter that bitmaps are added to once they have
-     *        been downloaded and decoded.
-     */
-    public static void enqueueGetImageAtURITask(String imageURI,
-            ImageGridViewActivity.ImageAdapter<Bitmap> imageAdapter) {
-
-        // Instantiate the task
-        ImageGridViewActivity.getImageAtURITask task =
-                new ImageGridViewActivity.getImageAtURITask(
-                        imageURI, imageAdapter);
-
-        // Create a message, and enqueue it with the task into our message queue
-        Message msg = ApplicationHandler.mApplicationHandler.mHandler
-                .obtainMessage(
-                ApplicationHandler.START_RUNNABLE_TASK, // Message.what
-                task                                    // Message.obj
-        );
-        msg.sendToTarget();
-    }
-
-    /**
-     *
-     */
-    public static void cancelAllGetImageAtURITasks() {
-    }
-
-
-
-    // -------------------------------------------------------------------------
     // TASK INTERFACES
     // -------------------------------------------------------------------------
     /**
