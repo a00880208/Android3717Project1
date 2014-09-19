@@ -97,6 +97,18 @@ public class ImageSwipeViewActivity extends Activity {
     //Tempory button to change the image to image in next index
     public void NextClick(View view)
     {
+        NextImage();
+    }
+
+    //Temporary button to change the image to image in previous index
+    public void BackClick(View view)
+    {
+        BackImage();
+    }
+
+    //function to change the image to the next image and update it
+    public void NextImage()
+    {
         if(currentIndex < parsedUrls.length -1)
         {
             currentIndex++;
@@ -107,11 +119,10 @@ public class ImageSwipeViewActivity extends Activity {
         {
             NoMoreImagesToast().show();
         }
-
     }
 
-    //Temporary button to change the image to image in previous index
-    public void BackClick(View view)
+    //function to change the image to the previous image and update it
+    public void BackImage()
     {
         if(currentIndex > 0)
         {
@@ -125,7 +136,7 @@ public class ImageSwipeViewActivity extends Activity {
     }
 
     //Creates a toast that notifies the user that there are no more images.
-    //TODO: modify message to string xml when finalized
+    //Ignore the yellow, it's just tripping out that the toast isn't instantly used!
     public Toast NoMoreImagesToast()
     {
         Toast toast = Toast.makeText(getApplicationContext(), "There are no more images!", Toast.LENGTH_SHORT);
