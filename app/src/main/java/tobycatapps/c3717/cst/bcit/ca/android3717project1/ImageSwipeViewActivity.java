@@ -1,11 +1,14 @@
 package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -14,16 +17,27 @@ import com.android.volley.toolbox.ImageRequest;
 
 public class ImageSwipeViewActivity extends Activity {
 
-
+    int currentIndex;
+    String[] parsedUrls;
     ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_swipe_view);
-        String url = "http://millionwaystoearnmoney.com/admin/uploads/category/male-cat2.JPG";
         mImageView = (ImageView) findViewById(R.id.imageViewer);
-        openImage(url, mImageView);
+        //openImage(url, mImageView);
+
+        System.out.println("ALEX: ImageSwipeView launched!");
+
+        Intent randomPetsIntent = getIntent();
+        String urlList = randomPetsIntent.getStringExtra(MyActivity.URL_LIST);
+        parsedUrls = urlParser(urlList);
+
+        int galleryIndex = randomPetsIntent.getIntExtra(MyActivity.INDEX, 0);
+        currentIndex = galleryIndex;
+        openImage(parsedUrls,galleryIndex, mImageView);
+
     }
 
 
@@ -46,11 +60,23 @@ public class ImageSwipeViewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openImage(String url, final ImageView imageView)
+    //URL Parser parses the strings that are fed in by whatever is calling this activity
+    //Currently set to parse spaces since url can't have spaces
+    public String[] urlParser(String urlStrings)
     {
-        System.out.println("openImage success");
+        String[] parsedUrls;
+        parsedUrls = urlStrings.split(" ");
+        return parsedUrls;
+    }
+
+    //Open image function takes the array of strings, parses the right one out and then updates
+    //the view with the image
+    public void openImage(String[] parsedUrls, int galleryIndex, final ImageView imageView)
+    {
+        currentIndex = galleryIndex;
+
         ImageRequest request =
-                new ImageRequest(url, new Response.Listener<Bitmap>() {
+                new ImageRequest(parsedUrls[galleryIndex], new Response.Listener<Bitmap>() {
                     public void onResponse(Bitmap bitmap) {
                         imageView.setImageBitmap(bitmap);
                     }
@@ -62,5 +88,44 @@ public class ImageSwipeViewActivity extends Activity {
         AppController.getInstance().getRequestQueue().add(request);
 //        image.setImageResource(R.drawable.ic_launcher);
     }
+
+    //Tempory button to change the image to image in next index
+    public void NextClick(View view)
+    {
+        if(currentIndex < parsedUrls.length -1)
+        {
+            currentIndex++;
+            System.out.println("ALEX: "+currentIndex+" "+parsedUrls[currentIndex]);
+            openImage(parsedUrls, currentIndex, mImageView);
+        }
+        else
+        {
+            NoMoreImagesToast().show();
+        }
+
+    }
+
+    //Temporary button to change the image to image in previous index
+    public void BackClick(View view)
+    {
+        if(currentIndex > 0)
+        {
+            currentIndex--;
+            openImage(parsedUrls, currentIndex, mImageView);
+        }
+        else
+        {
+            NoMoreImagesToast().show();
+        }
+    }
+
+    //Creates a toast that notifies the user that there are no more images.
+    //TODO: modify message to string xml when finalized
+    public Toast NoMoreImagesToast()
+    {
+        Toast toast = Toast.makeText(getApplicationContext(), "There are no more images!", Toast.LENGTH_SHORT);
+        return toast;
+    }
+
 
 }
