@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,8 @@ public class ImageGridViewActivity extends Activity {
     /** application context */
     private Context mContext;
 
+
+    
 
 
 
@@ -119,7 +122,8 @@ public class ImageGridViewActivity extends Activity {
         }
 
         // Add a click listener to the grid view
-        mImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mImageGridView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
             /*
              * when a cell in the grid view is tapped, it dispatches an intent
              * to start ImageSwipeViewActivity
@@ -130,6 +134,7 @@ public class ImageGridViewActivity extends Activity {
                 Intent i = new Intent(mContext, ImageSwipeViewActivity.class);
                 i.putExtra(ImageSwipeViewActivity.URL_LIST, mImageURIs);
                 i.putExtra(ImageSwipeViewActivity.INDEX, position);
+                startActivity(i);
             }
         });
     }
