@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -20,10 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -123,6 +117,21 @@ public class ImageGridViewActivity extends Activity {
         for (String imageURI : mImageURIs) {
             addImageToArrayAdapter(imageURI, imageAdapter);
         }
+
+        // Add a click listener to the grid view
+        mImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /*
+             * when a cell in the grid view is tapped, it dispatches an intent
+             * to start ImageSwipeViewActivity
+             */
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Intent i = new Intent(mContext, ImageSwipeViewActivity.class);
+                i.putExtra(ImageSwipeViewActivity.URL_LIST, mImageURIs);
+                i.putExtra(ImageSwipeViewActivity.INDEX, position);
+            }
+        });
     }
 
 
