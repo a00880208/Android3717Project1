@@ -16,6 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -116,8 +120,30 @@ public class ImageGridViewActivity extends Activity {
         ImageAdapter<Bitmap> imageAdapter = new ImageAdapter<Bitmap>(mContext);
         mImageGridView.setAdapter(imageAdapter);
         for (String imageURI : mImageURIs) {
-            ApplicationHandler.enqueueGetImageAtURITask(imageURI, imageAdapter);
+            addImageToArrayAdapter(imageURI, imageAdapter);
         }
+    }
+
+
+
+
+    // -------------------------------------------------------------------------
+    // Support methods
+    // -------------------------------------------------------------------------
+    private void addImageToArrayAdapter(String uri,
+            final ArrayAdapter<Bitmap> imageAdapter) {
+        ImageRequest request =
+            new ImageRequest(uri, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap bitmap) {
+                    imageAdapter.add(bitmap);
+                }
+            }, 0, 0, null,
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {}
+            });
+        AppController.getInstance().getRequestQueue().add(request);
     }
 
 
@@ -149,77 +175,6 @@ public class ImageGridViewActivity extends Activity {
 
             imageView.setImageBitmap(getItem(position));
             return imageView;
-        }
-    }
-
-    public static class getImageAtURITask implements Runnable,
-            ApplicationHandler.UpdateUITask {
-
-        /** URL of the image that's on the internet to download and decode. */
-        private String mImageURI;
-
-        /** Reference to decoded image hosted at mImageURI. */
-        private Bitmap mDecodedBitmap = null;
-
-        /**
-         * Reference to imageAdapter to add bitmap to once image hosted at
-         * mImageURI is downloaded, and decoded.
-         */
-        private ImageAdapter<Bitmap> mImageAdapter;
-
-        /**
-         * Instantiates a getImageAtURITask
-         * @param imageURI URL to an image hosted on the internet somewhere
-         * @param imageAdapter ArrayAdapter subclass that downloaded images will
-         *        be added to
-         */
-        public getImageAtURITask(String imageURI,
-                ImageAdapter<Bitmap> imageAdapter) {
-            mImageURI = imageURI;
-            mImageAdapter = imageAdapter;
-        }
-
-        /**
-         * Gets the bitmap from the internet, decodes it, and sends a message to
-         * ApplicationHandler to execute the method that needs to be on the UI
-         * thread.
-         */
-        @Override
-        public void run() {
-
-            // Attempt to download and decode the bitmap...once image is
-            // decoded, send another message to ApplicationHandler to execute
-            // our updateUI method to add the bitmap to the UI. If this fails,
-            // log the exception.
-            try {
-                URL url = new URL(mImageURI);
-                HttpURLConnection connection =
-                        (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                mDecodedBitmap = BitmapFactory.decodeStream(input);
-
-                // Send message to UI thread to add bitmap to UI
-                Message msg = ApplicationHandler.mApplicationHandler.mHandler.obtainMessage(
-                        ApplicationHandler.UPDATE_UI_TASK,  // Message.what
-                        this                                // Message.obj
-                );
-                msg.sendToTarget();
-            } catch (IOException e) {
-                Log.e(null, "getImageAtURITask: Error downloading and decoding"
-                        + " bitmap:");
-                Log.e(null, e.toString());
-            }
-        }
-
-        /**
-         * Puts the decoded bitmap onto the UI; this method must be run on the
-         * UI thread.
-         */
-        @Override
-        public void updateUI() {
-           mImageAdapter.add(mDecodedBitmap);
         }
     }
 }
