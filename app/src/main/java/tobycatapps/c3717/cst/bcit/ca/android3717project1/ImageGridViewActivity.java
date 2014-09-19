@@ -201,7 +201,7 @@ public class ImageGridViewActivity extends Activity {
                 mDecodedBitmap = BitmapFactory.decodeStream(input);
 
                 // Send message to UI thread to add bitmap to UI
-                Message msg = ApplicationHandler.mHandler.obtainMessage(
+                Message msg = ApplicationHandler.mApplicationHandler.mHandler.obtainMessage(
                         ApplicationHandler.UPDATE_UI_TASK,  // Message.what
                         this                                // Message.obj
                 );

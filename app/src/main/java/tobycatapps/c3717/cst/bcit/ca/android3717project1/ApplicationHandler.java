@@ -69,7 +69,7 @@ public class ApplicationHandler {
             new LinkedBlockingQueue<Runnable>();
 
     /** Handler object that's attached to the UI thread */
-    public static Handler mHandler;
+    public final Handler mHandler;
 
     /** Reference to the singleton ApplicationHandler */
     public static final ApplicationHandler mApplicationHandler;
@@ -164,7 +164,8 @@ public class ApplicationHandler {
                         imageURI, imageAdapter);
 
         // Create a message, and enqueue it with the task into our message queue
-        Message msg = ApplicationHandler.mHandler.obtainMessage(
+        Message msg = ApplicationHandler.mApplicationHandler.mHandler
+                .obtainMessage(
                 ApplicationHandler.START_RUNNABLE_TASK, // Message.what
                 task                                    // Message.obj
         );
