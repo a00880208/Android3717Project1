@@ -21,6 +21,11 @@ public class ImageSwipeViewActivity extends Activity {
     String[] parsedUrls;
     ImageView mImageView;
 
+    public final static String URL_LIST =
+            "tobycatapps.c3717.cst.bcit.ca.android3717project1.urlist";
+    public final static String INDEX =
+            "tobycatapps.c3717.cst.bcit.ca.android3717project1.index";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +36,10 @@ public class ImageSwipeViewActivity extends Activity {
         System.out.println("ALEX: ImageSwipeView launched!");
 
         Intent randomPetsIntent = getIntent();
-        String urlList = randomPetsIntent.getStringExtra(MyActivity.URL_LIST);
+        String urlList = randomPetsIntent.getStringExtra(URL_LIST);
         parsedUrls = urlParser(urlList);
 
-        int galleryIndex = randomPetsIntent.getIntExtra(MyActivity.INDEX, 0);
+        int galleryIndex = randomPetsIntent.getIntExtra(INDEX, 0);
         currentIndex = galleryIndex;
         openImage(parsedUrls,galleryIndex, mImageView);
 

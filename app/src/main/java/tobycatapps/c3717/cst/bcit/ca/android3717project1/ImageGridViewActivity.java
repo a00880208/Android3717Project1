@@ -42,7 +42,8 @@ public class ImageGridViewActivity extends Activity {
      * key in starting intent to value that holds an array of URIs of images to
      * display
      */
-    public static final String KEY_IMAGE_URIS = "KEY_IMAGE_URIS";
+    public static final String KEY_IMAGE_URIS =
+            "tobycatapps.c3717.cst.bcit.ca.android3717project1.KEY_IMAGE_URIS";
 
     /** array of image URIs extracted from the starting intent */
     private String[] mImageURIs;

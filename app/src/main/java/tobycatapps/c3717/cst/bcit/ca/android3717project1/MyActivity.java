@@ -10,9 +10,6 @@ import android.view.View;
 
 public class MyActivity extends Activity {
 
-    public final static String URL_LIST = "tobycatapps.c3717.cst.bcit.ca.android3717project1.urlist";
-    public final static String INDEX = "tobycatapps.c3717.cst.bcit.ca.android3717project1.index";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +56,8 @@ public class MyActivity extends Activity {
                 " https://reallifeanime.files.wordpress.com/2014/07/zankyou-no-terror-episode-2-hurry.png";
         int indexNum = 0;
         Intent randomPetsIntent = new Intent(this, ImageSwipeViewActivity.class);
-        randomPetsIntent.putExtra(URL_LIST,urlmessage);
-        randomPetsIntent.putExtra(INDEX, indexNum);
+        randomPetsIntent.putExtra(ImageSwipeViewActivity.URL_LIST,urlmessage);
+        randomPetsIntent.putExtra(ImageSwipeViewActivity.INDEX, indexNum);
         startActivity(randomPetsIntent);
     }
 }
