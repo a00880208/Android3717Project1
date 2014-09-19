@@ -19,7 +19,6 @@ public class AppController extends Application {
         super.onCreate();
         mInstance = this;
         mRequestQueue = Volley.newRequestQueue(this);
-        Log.e(toString(), "AppController started");
     }
 
     /**
