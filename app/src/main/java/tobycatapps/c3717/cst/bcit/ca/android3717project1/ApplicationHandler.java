@@ -171,6 +171,11 @@ public class ApplicationHandler {
         msg.sendToTarget();
     }
 
+    /**
+     *
+     */
+    public static void cancelAllGetImageAtURITasks() {
+    }
 
 
 
