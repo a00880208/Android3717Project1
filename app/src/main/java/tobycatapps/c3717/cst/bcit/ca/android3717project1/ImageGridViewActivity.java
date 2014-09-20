@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,8 +48,11 @@ public class ImageGridViewActivity extends Activity {
     /** application context */
     private Context mContext;
 
-
-    
+    /**
+     * image shown to act as a placeholder while the real images are being
+     * downloaded and decoded from the internet
+     */
+    private static final int PLACEHOLDER_IMAGE = R.drawable.ic_launcher;
 
 
 
@@ -115,7 +118,8 @@ public class ImageGridViewActivity extends Activity {
     private void configureGUIWidgets() {
 
         // Add images to grid view (mImageGridView)
-        ImageAdapter<Bitmap> imageAdapter = new ImageAdapter<Bitmap>(mContext);
+        ImageAdapter<Bitmap> imageAdapter =
+                new ImageAdapter<Bitmap>(mContext, new ArrayList<Bitmap>());
         mImageGridView.setAdapter(imageAdapter);
         for (String imageURI : mImageURIs) {
             addImageToArrayAdapter(imageURI, imageAdapter);
@@ -146,12 +150,22 @@ public class ImageGridViewActivity extends Activity {
     // Support methods
     // -------------------------------------------------------------------------
     private void addImageToArrayAdapter(String uri,
-            final ArrayAdapter<Bitmap> imageAdapter) {
+            final ImageAdapter imageAdapter) {
+
+        // adds a placeholder image into the grid view until the real image
+        // can be downloaded and decoded
+        final ArrayList<Bitmap> adapterArrayList = imageAdapter.getArrayList();
+        final int imageIndex = adapterArrayList.size();
+        Bitmap b = BitmapFactory.decodeResource(getResources(),
+                PLACEHOLDER_IMAGE);
+        adapterArrayList.add(b);
+
         ImageRequest request =
             new ImageRequest(uri, new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap bitmap) {
-                    imageAdapter.add(bitmap);
+                    adapterArrayList.set(imageIndex, bitmap);
+                    imageAdapter.notifyDataSetChanged();
                 }
             }, 0, 0, null,
             new Response.ErrorListener() {
@@ -168,11 +182,17 @@ public class ImageGridViewActivity extends Activity {
     // Inner classes
     // -------------------------------------------------------------------------
     /** ArrayAdapter; populates ListViews and GridViews with ImageViews. */
-    public class ImageAdapter<T extends Bitmap> extends ArrayAdapter<T> {
+    private class ImageAdapter<T extends Bitmap> extends ArrayAdapter<T> {
 
-        private ImageAdapter(Context appContext) {
-            super(appContext, android.R.layout.simple_list_item_1,
-                    new ArrayList<T>());
+        private ArrayList<T> mArrayList;
+
+        private ImageAdapter(Context appContext, ArrayList<T> arrayList) {
+            super(appContext, android.R.layout.simple_list_item_1, arrayList);
+            mArrayList = arrayList;
+        }
+
+        public ArrayList<T> getArrayList() {
+            return mArrayList;
         }
 
         /** Create a new ImageView for each item referenced by the Adapter */
