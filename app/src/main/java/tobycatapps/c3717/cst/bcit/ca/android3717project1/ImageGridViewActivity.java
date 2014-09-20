@@ -150,7 +150,7 @@ public class ImageGridViewActivity extends Activity {
     // Support methods
     // -------------------------------------------------------------------------
     private void addImageToArrayAdapter(String uri,
-            final ImageAdapter imageAdapter) {
+            final ImageAdapter<Bitmap> imageAdapter) {
 
         // adds a placeholder image into the grid view until the real image
         // can be downloaded and decoded
