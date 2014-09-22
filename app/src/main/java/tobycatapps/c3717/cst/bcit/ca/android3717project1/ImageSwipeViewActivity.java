@@ -36,7 +36,7 @@ public class ImageSwipeViewActivity extends Activity {
         System.out.println("ALEX: ImageSwipeView launched!");
 
         Intent randomPetsIntent = getIntent();
-        String[] parsedUrls = randomPetsIntent.getStringArrayExtra(URL_LIST);
+        parsedUrls = randomPetsIntent.getStringArrayExtra(URL_LIST);
 
         galleryIndex = randomPetsIntent.getIntExtra(INDEX, 0);
         openImage(parsedUrls,galleryIndex, mImageView);
