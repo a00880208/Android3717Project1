@@ -21,5 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('/home/etsang/Desktop/AndroidStudioProjects/Android3717Project1/volley/volley.jar')
+    compile files('C:/Users/Alex/AndroidStudioProjects/Android3717Project1/volley/volley.jar')
 }
+
+//C:/Users/Alex/AndroidStudioProjects/Android3717Project1/volley/volley.jar
+///home/etsang/Desktop/AndroidStudioProjects/Android3717Project1/volley/volley.jar

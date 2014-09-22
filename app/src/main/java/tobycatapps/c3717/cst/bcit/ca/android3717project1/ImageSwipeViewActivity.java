@@ -17,7 +17,7 @@ import com.android.volley.toolbox.ImageRequest;
 
 public class ImageSwipeViewActivity extends Activity {
 
-    int currentIndex;
+    int galleryIndex;
     String[] parsedUrls;
     ImageView mImageView;
 
@@ -37,13 +37,8 @@ public class ImageSwipeViewActivity extends Activity {
 
         Intent randomPetsIntent = getIntent();
         String[] parsedUrls = randomPetsIntent.getStringArrayExtra(URL_LIST);
-        /*
-        String urlList = randomPetsIntent.getStringExtra(URL_LIST);
-        parsedUrls = urlParser(urlList);
-        */
-        
-        int galleryIndex = randomPetsIntent.getIntExtra(INDEX, 0);
-        currentIndex = galleryIndex;
+
+        galleryIndex = randomPetsIntent.getIntExtra(INDEX, 0);
         openImage(parsedUrls,galleryIndex, mImageView);
 
     }
@@ -68,21 +63,10 @@ public class ImageSwipeViewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    //URL Parser parses the strings that are fed in by whatever is calling this activity
-    //Currently set to parse spaces since url can't have spaces
-    public String[] urlParser(String urlStrings)
-    {
-        String[] parsedUrls;
-        parsedUrls = urlStrings.split(" ");
-        return parsedUrls;
-    }
-
     //Open image function takes the array of strings, parses the right one out and then updates
     //the view with the image
     public void openImage(String[] parsedUrls, int galleryIndex, final ImageView imageView)
     {
-        currentIndex = galleryIndex;
-
         ImageRequest request =
                 new ImageRequest(parsedUrls[galleryIndex], new Response.Listener<Bitmap>() {
                     public void onResponse(Bitmap bitmap) {
@@ -100,23 +84,26 @@ public class ImageSwipeViewActivity extends Activity {
     //Tempory button to change the image to image in next index
     public void NextClick(View view)
     {
+        System.out.println("ALEX: NEXTCLICK");
         NextImage();
     }
 
     //Temporary button to change the image to image in previous index
     public void BackClick(View view)
     {
+        System.out.println("ALEX: BACKCLICK");
         BackImage();
     }
 
     //function to change the image to the next image and update it
     public void NextImage()
     {
-        if(currentIndex < parsedUrls.length -1)
+        System.out.println("ALEX: NEXTIMAGE");
+        if(galleryIndex < parsedUrls.length -1)
         {
-            currentIndex++;
-            System.out.println("ALEX: "+currentIndex+" "+parsedUrls[currentIndex]);
-            openImage(parsedUrls, currentIndex, mImageView);
+            galleryIndex++;
+            System.out.println("ALEX: "+galleryIndex+" "+parsedUrls[galleryIndex]);
+            openImage(parsedUrls, galleryIndex, mImageView);
         }
         else
         {
@@ -127,10 +114,11 @@ public class ImageSwipeViewActivity extends Activity {
     //function to change the image to the previous image and update it
     public void BackImage()
     {
-        if(currentIndex > 0)
+        System.out.println("ALEX: BACKIMAGE");
+        if(galleryIndex > 0)
         {
-            currentIndex--;
-            openImage(parsedUrls, currentIndex, mImageView);
+            galleryIndex--;
+            openImage(parsedUrls, galleryIndex, mImageView);
         }
         else
         {
