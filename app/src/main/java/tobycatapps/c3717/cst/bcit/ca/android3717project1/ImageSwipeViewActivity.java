@@ -30,6 +30,7 @@ public class ImageSwipeViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_swipe_view);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         mImageView = (ImageView) findViewById(R.id.imageViewer);
         //openImage(url, mImageView);
 
