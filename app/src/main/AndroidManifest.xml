@@ -22,6 +22,9 @@
         <activity
             android:name=".activity.ImageGridViewActivity"
             android:label="@string/title_activity_image_grid_view" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tobycatapps.c3717.cst.bcit.ca.android3717project1.MyActivity" />
         </activity>
         <activity
             android:name=".activity.ImageSwipeViewActivity"

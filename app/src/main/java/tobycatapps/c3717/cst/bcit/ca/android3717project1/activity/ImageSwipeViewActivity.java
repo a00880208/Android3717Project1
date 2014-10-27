@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,8 +18,7 @@ import com.android.volley.toolbox.ImageRequest;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.AppController;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
-
-public class ImageSwipeViewActivity extends Activity {
+public class ImageSwipeViewActivity extends Activity implements GestureDetector.OnGestureListener{
 
     int galleryIndex;
     String[] parsedUrls;
@@ -29,13 +29,14 @@ public class ImageSwipeViewActivity extends Activity {
     public final static String INDEX =
             "tobycatapps.c3717.cst.bcit.ca.android3717project1.index";
 
+    private GestureDetector mDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_swipe_view);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         mImageView = (ImageView) findViewById(R.id.imageViewer);
-        //openImage(url, mImageView);
 
         System.out.println("ALEX: ImageSwipeView launched!");
 
@@ -45,8 +46,59 @@ public class ImageSwipeViewActivity extends Activity {
         galleryIndex = randomPetsIntent.getIntExtra(INDEX, 0);
         openImage(parsedUrls,galleryIndex, mImageView);
 
+        mDetector = new GestureDetector(this, this);
+
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.mDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent arg0) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                           float velocityY) {
+        float sensitvity = 50;
+
+        if((e1.getX() - e2.getX()) > sensitvity){
+            NextImage();
+        }else if((e2.getX() - e1.getX()) > sensitvity){
+            BackImage();
+        }
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+                            float distanceY) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,6 +119,8 @@ public class ImageSwipeViewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     //Open image function takes the array of strings, parses the right one out and then updates
     //the view with the image
     public void openImage(String[] parsedUrls, int galleryIndex, final ImageView imageView)
@@ -80,24 +134,9 @@ public class ImageSwipeViewActivity extends Activity {
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {}
                 });
-// Access the RequestQueue through your singleton class.
         AppController.getInstance().getRequestQueue().add(request);
-//        image.setImageResource(R.drawable.ic_launcher);
     }
 
-    //Tempory button to change the image to image in next index
-    public void NextClick(View view)
-    {
-        System.out.println("ALEX: NEXTCLICK");
-        NextImage();
-    }
-
-    //Temporary button to change the image to image in previous index
-    public void BackClick(View view)
-    {
-        System.out.println("ALEX: BACKCLICK");
-        BackImage();
-    }
 
     //function to change the image to the next image and update it
     public void NextImage()
@@ -137,6 +176,4 @@ public class ImageSwipeViewActivity extends Activity {
         Toast toast = Toast.makeText(getApplicationContext(), "There are no more images!", Toast.LENGTH_SHORT);
         return toast;
     }
-
-
 }
