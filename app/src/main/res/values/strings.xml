@@ -23,4 +23,11 @@
     <string name="search_button_activity_search">Search</string>
     <string name="reset_button_activity_search">Reset</string>
 
+    <!-- Networking -->
+    <string name="zero_results">No Results</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="server_error">Server Error</string>
+    <string name="not_found">Address not Found</string>
+    <string name="no_internet">No Internet Connection</string>
+
 </resources>

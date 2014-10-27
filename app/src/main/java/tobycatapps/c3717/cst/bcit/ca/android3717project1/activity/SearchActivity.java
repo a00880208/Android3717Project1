@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -30,6 +31,9 @@ public class SearchActivity extends Activity {
     ////////////////////
     // GUI references //
     ////////////////////
+    /** text used to give the user feedback when the search goes wrong */
+    private TextView feedbackText;
+
     /** spinner used to indicate loading */
     private ProgressBar spinner;
 
@@ -107,10 +111,15 @@ public class SearchActivity extends Activity {
     ///////////////////////
     // interface methods //
     ///////////////////////
+    /**
+     * constructs a query and executes it on the internet. when it responds,
+     * begins the ImageGridViewActivity; displays an error message otherwise
+     */
     public void search(View view) {
 
         // show loading spinner
         spinner.setVisibility(View.VISIBLE);
+        feedbackText.setVisibility(View.GONE);
 
         // get tags user inputs
         ArrayList<String> tags = new ArrayList<String>();
@@ -157,7 +166,7 @@ public class SearchActivity extends Activity {
                             public void onResponse(JSONArray data) {
 
                                 // hide loading spinner
-                                spinner.setVisibility(View.INVISIBLE);
+                                spinner.setVisibility(View.GONE);
 
                                 // parse data
                                 String[] imageUris = new String[data.length()];
@@ -171,9 +180,14 @@ public class SearchActivity extends Activity {
                                 }
 
                                 // start ImageGridViewActivity
-                                Intent i = new Intent(SearchActivity.this, ImageGridViewActivity.class);
-                                i.putExtra(ImageGridViewActivity.KEY_IMAGE_URIS, imageUris);
-                                startActivity(i);
+                                if (imageUris.length > 0) {
+                                    Intent i = new Intent(SearchActivity.this, ImageGridViewActivity.class);
+                                    i.putExtra(ImageGridViewActivity.KEY_IMAGE_URIS, imageUris);
+                                    startActivity(i);
+                                } else {
+                                    feedbackText.setVisibility(View.VISIBLE);
+                                    feedbackText.setText(getString(R.string.zero_results));
+                                }
                             }
                         },
 
@@ -182,13 +196,35 @@ public class SearchActivity extends Activity {
                             public void onErrorResponse(VolleyError volleyError) {
 
                                 // hide loading spinner
-                                spinner.setVisibility(View.INVISIBLE);
+                                spinner.setVisibility(View.GONE);
+
+                                if (volleyError.networkResponse != null) {
+                                    switch (volleyError.networkResponse.statusCode) {
+
+                                        case 404:
+                                            feedbackText.setText(getString(R.string.not_found));
+                                            break;
+
+                                        case 400:
+                                        case 500:
+                                            feedbackText.setText(getString(R.string.server_error));
+                                            break;
+
+                                        default:
+                                            feedbackText.setText(getString(R.string.unknown_error));
+                                            break;
+                                    }
+                                } else {
+                                    feedbackText.setText(getString(R.string.no_internet));
+                                }
+                                feedbackText.setVisibility(View.VISIBLE);
                             }
                         });
 
         AppController.getInstance().getRequestQueue().add(request);
     }
 
+    /** clears the fields on the form */
     public void clearFields(View view) {
         uploaderNameFilterInput.setText("");
         tagInput1.setChecked(false);
@@ -209,6 +245,7 @@ public class SearchActivity extends Activity {
     // support methods //
     /////////////////////
     private void initializeGUIReferences() {
+        feedbackText = (TextView) findViewById(R.id.feedback);
         spinner = (ProgressBar) findViewById(R.id.spinner);
         uploaderNameFilterInput = (EditText) findViewById(R.id.uploader_search_edit_text);
         tagInput1 = (CheckBox) findViewById(R.id.checkBox1);
