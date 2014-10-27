@@ -1,8 +1,10 @@
-package tobycatapps.c3717.cst.bcit.ca.android3717project1;
+package tobycatapps.c3717.cst.bcit.ca.android3717project1.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 
 public class LoginActivity extends Activity {

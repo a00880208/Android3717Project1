@@ -1,4 +1,4 @@
-package tobycatapps.c3717.cst.bcit.ca.android3717project1;
+package tobycatapps.c3717.cst.bcit.ca.android3717project1.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.AppController;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 
 public class ImageSwipeViewActivity extends Activity {

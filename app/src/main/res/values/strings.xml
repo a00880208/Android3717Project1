@@ -8,12 +8,19 @@
     <string name="title_activity_image_swipe_view">ImageSwipeViewActivity</string>
     <string name="title_activity_start_image_grid_view">StartImageGridViewActivity</string>
 
-    //Main Menu Strings
-    
+    <!-- LoginActivity Strings -->
     <string name="btn_login">Login</string>
     <string name="btn_random">Random Pets!</string>
     <string name="btn_week">Pet of the Week</string>
     <string name="btn_search">Search</string>
     <string name="title_activity_login">LoginActivity</string>
+
+    <!-- SearchActivity strings -->
+    <string name="title_activity_search">Search for Pets</string>
+    <string name="search_tags_label_activity_search">Filter Images by Image Tags:</string>
+    <string name="uploader_search_edit_text_label_activity_search">Filter Images by Uploader Name:</string>
+    <string name="uploader_search_edit_text_activity_search">Uploader Name</string>
+    <string name="search_button_activity_search">Search</string>
+    <string name="reset_button_activity_search">Reset</string>
 
 </resources>

@@ -22,6 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    compile 'com.android.support:support-v4:21.0.0'
 }
 //    compile files('./volley/volley.jar')
 //C:/Users/Alex/AndroidStudioProjects/Android3717Project1/volley/volley.jar

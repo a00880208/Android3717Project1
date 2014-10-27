@@ -19,7 +19,7 @@ import android.os.Message;
  *
  * Created by Eric Tsang on 14/09/2014.
  */
-public class ApplicationHandler {
+public class ThreadManager {
 
 
 
@@ -54,7 +54,7 @@ public class ApplicationHandler {
      * executed on the same thread as this class. Such message types must
      * implement the UpdateUITask interface. The updateUI method will be run on
      * the UI thread.
-     * @see ApplicationHandler.UpdateUITask
+     * @see ThreadManager.UpdateUITask
      */
     public static final int UPDATE_UI_TASK = 1;
 
@@ -71,7 +71,7 @@ public class ApplicationHandler {
     public final Handler mHandler;
 
     /** Reference to the singleton ApplicationHandler */
-    public static final ApplicationHandler mApplicationHandler;
+    private static final ThreadManager mInstance;
 
     /** Creates a thread pool manager & instantiate one */
     private static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
@@ -82,7 +82,7 @@ public class ApplicationHandler {
             workQueue);
 
     /** Instantiates a single ApplicationHandler */
-    static { mApplicationHandler = new ApplicationHandler(); }
+    static { mInstance = new ThreadManager(); }
 
 
 
@@ -95,7 +95,7 @@ public class ApplicationHandler {
      * and decode images. Because the constructor is marked private,
      * it's unavailable to other classes, even in the same package.
      */
-    private ApplicationHandler() {
+    private ThreadManager() {
 
         // Defines a Handler object that's attached to the UI thread
         mHandler = new Handler(Looper.getMainLooper()) {
@@ -111,7 +111,7 @@ public class ApplicationHandler {
                      * Assumes that messageIn.obj implements Runnable. Executes
                      * the Runnable's run method on a background worker thread.
                      */
-                    case ApplicationHandler.START_RUNNABLE_TASK:
+                    case ThreadManager.START_RUNNABLE_TASK:
 
                         // Adds task to the thread pool for execution on a
                         // worker thread
@@ -123,7 +123,7 @@ public class ApplicationHandler {
                      * Executes the UpdateUITask's updateUI method on the UI
                      * thread.
                      */
-                    case ApplicationHandler.UPDATE_UI_TASK:
+                    case ThreadManager.UPDATE_UI_TASK:
 
                         // Runs task on the UI thread (this thread).
                         ((UpdateUITask) messageIn.obj).updateUI();
@@ -136,6 +136,19 @@ public class ApplicationHandler {
                 }
             }
         };
+    }
+
+
+
+
+    // -------------------------------------------------------------------------
+    // INTERFACE METHODS
+    // -------------------------------------------------------------------------
+    /**
+     * returns the singleton instance for this class
+     */
+    public static ThreadManager getInstance() {
+        return mInstance;
     }
 
 

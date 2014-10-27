@@ -1,4 +1,4 @@
-package tobycatapps.c3717.cst.bcit.ca.android3717project1;
+package tobycatapps.c3717.cst.bcit.ca.android3717project1.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
 import java.util.ArrayList;
+
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.AppController;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.M;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 
 public class ImageGridViewActivity extends Activity {
