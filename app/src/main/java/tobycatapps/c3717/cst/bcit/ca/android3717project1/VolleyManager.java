@@ -10,13 +10,13 @@ import com.android.volley.toolbox.Volley;
  */
 public class VolleyManager {
 
-    private RequestQueue mRequestQueue;
+    private static RequestQueue mRequestQueue;
 
     /**
      * returns the singleton instance of Volley's RequestQueue.
      * @return instance of Volley's RequestQueue
      */
-    public RequestQueue getRequestQueue(Context c) {
+    public static RequestQueue getRequestQueue(Context c) {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(c);
         }

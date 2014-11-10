@@ -176,7 +176,7 @@ public class ImageGridViewActivity extends Activity {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {}
             });
-        VolleyManager.getInstance().getRequestQueue().add(request);
+        VolleyManager.getRequestQueue(this).add(request);
     }
 
 
@@ -205,7 +205,7 @@ public class ImageGridViewActivity extends Activity {
             ImageView imageView;
             if (convertView == null) {  // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
-                int length = M.dp(90);
+                int length = M.dp(ImageGridViewActivity.this, 90);
                 imageView.setLayoutParams(new GridView.LayoutParams(length, length));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {

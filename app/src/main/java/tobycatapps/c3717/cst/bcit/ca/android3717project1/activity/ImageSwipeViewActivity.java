@@ -134,7 +134,7 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {}
                 });
-        VolleyManager.getInstance().getRequestQueue().add(request);
+        VolleyManager.getRequestQueue(this).add(request);
     }
 
 

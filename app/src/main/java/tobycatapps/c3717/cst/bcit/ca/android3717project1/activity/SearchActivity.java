@@ -221,7 +221,7 @@ public class SearchActivity extends Activity {
                             }
                         });
 
-        VolleyManager.getInstance().getRequestQueue().add(request);
+        VolleyManager.getRequestQueue(this).add(request);
     }
 
     /** clears the fields on the form */
