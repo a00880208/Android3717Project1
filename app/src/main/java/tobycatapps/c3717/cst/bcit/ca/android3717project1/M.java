@@ -16,14 +16,15 @@ public class M {
     private M() {}
 
     /**
-     * when entering a number programatically to specify dimensions, it is
+     * when entering a number programmatically to specify dimensions, it is
      * interpreted as pixels, which is bad. this function can be given the
      * desired dp, and it converts it into pixels.
-     * @param dp
-     * @return
+     * @param dp amount of density-independent pixels to be converted to pixels
+     * @return number of pixels needed to match the specified
+     *   density-independent pixels
      */
     public static int dp(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                AppController.getInstance().getResources().getDisplayMetrics());
+                VolleyManager.getInstance().getResources().getDisplayMetrics());
     }
 }

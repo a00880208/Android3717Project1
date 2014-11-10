@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import tobycatapps.c3717.cst.bcit.ca.android3717project1.AppController;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 public class SearchActivity extends Activity {
@@ -221,7 +221,7 @@ public class SearchActivity extends Activity {
                             }
                         });
 
-        AppController.getInstance().getRequestQueue().add(request);
+        VolleyManager.getInstance().getRequestQueue().add(request);
     }
 
     /** clears the fields on the form */

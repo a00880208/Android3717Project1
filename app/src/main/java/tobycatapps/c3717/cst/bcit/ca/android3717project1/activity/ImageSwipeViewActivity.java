@@ -15,7 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
-import tobycatapps.c3717.cst.bcit.ca.android3717project1.AppController;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 public class ImageSwipeViewActivity extends Activity implements GestureDetector.OnGestureListener{
@@ -134,7 +134,7 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {}
                 });
-        AppController.getInstance().getRequestQueue().add(request);
+        VolleyManager.getInstance().getRequestQueue().add(request);
     }
 
 

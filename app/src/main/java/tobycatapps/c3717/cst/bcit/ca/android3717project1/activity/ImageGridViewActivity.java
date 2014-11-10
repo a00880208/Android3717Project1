@@ -21,7 +21,7 @@ import com.android.volley.toolbox.ImageRequest;
 
 import java.util.ArrayList;
 
-import tobycatapps.c3717.cst.bcit.ca.android3717project1.AppController;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.M;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
@@ -176,7 +176,7 @@ public class ImageGridViewActivity extends Activity {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {}
             });
-        AppController.getInstance().getRequestQueue().add(request);
+        VolleyManager.getInstance().getRequestQueue().add(request);
     }
 
 
