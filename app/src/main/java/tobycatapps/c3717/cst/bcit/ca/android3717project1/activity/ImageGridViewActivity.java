@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -21,8 +22,8 @@ import com.android.volley.toolbox.ImageRequest;
 
 import java.util.ArrayList;
 
-import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.M;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 
@@ -145,64 +146,118 @@ public class ImageGridViewActivity extends Activity {
     private void configureGUIWidgets() {
 
         // instantiate and set an adapter for mImageGridView
-        ArrayListAdapter<Bitmap> arrayListAdapter =
-                new ArrayListAdapter<Bitmap>(mContext) {
+        final ArrayListAdapter<Bitmap> adapter;
+        adapter = new ArrayListAdapter<Bitmap>(mContext) {
 
-                    /**
-                     * returns the View that is to be displayed in the GridView
-                     *   or ListView
-                     *
-                     * @param position index of the item in our ArrayList
-                     * @param convertView View that's being reused; may possibly
-                     *   be null if there is no View object to reuse
-                     * @param parent ViewGroup that returned View will
-                     *   eventually be attached to
-                     *
-                     * @return a View that is to be displayed in the GridView or
-                     *   ListView
-                     */
-                    @Override
-                    public View getView(int position, View convertView,
-                            ViewGroup parent) {
+                /**
+                 * returns the View that is to be displayed in the GridView
+                 *   or ListView
+                 *
+                 * @param position index of the item in our ArrayList
+                 * @param convertView View that's being reused; may possibly
+                 *   be null if there is no View object to reuse
+                 * @param parent ViewGroup that returned View will
+                 *   eventually be attached to
+                 *
+                 * @return a View that is to be displayed in the GridView or
+                 *   ListView
+                 */
+                @Override
+                public View getView(int position, View convertView,
+                        ViewGroup parent) {
 
-                        ImageView imageView;
+                    ImageView imageView;
 
-                        if (convertView == null) {
+                    if (convertView == null) {
 
-                            // we're creating a new view from scratch;
-                            // instantiate and initialize what's necessary to
-                            // create a layout for our image for the GirdView
-                            int length = mImageGridView.getColumnWidth();
+                        // we're creating a new view from scratch;
+                        // instantiate and initialize what's necessary to
+                        // create a layout for our image for the GirdView
+                        int length = mImageGridView.getColumnWidth();
 
-                            imageView = new ImageView(mContext);
-                            imageView.setLayoutParams(new GridView.LayoutParams(
-                                    length, length));
-                            imageView.setScaleType(
-                                    ImageView.ScaleType.CENTER_CROP);
+                        imageView = new ImageView(mContext);
+                        imageView.setLayoutParams(new GridView.LayoutParams(
+                                length, length));
+                        imageView.setScaleType(
+                                ImageView.ScaleType.CENTER_CROP);
 
-                        } else {
+                    } else {
 
-                            // we're using an old view
-                            imageView = (ImageView) convertView;
+                        // we're using an old view
+                        imageView = (ImageView) convertView;
 
-                        }
-
-                        // put the image on the tile...
-                        imageView.setImageBitmap(getItem(position));
-                        return imageView;
                     }
-                };
-        mImageGridView.setAdapter(arrayListAdapter);
 
-        // add images to grid view (mImageGridView)
-        Bitmap loadImage = BitmapFactory.decodeResource(
-                getResources(), R_ID_LOADING_IMAGE);
-        Bitmap errorImage = BitmapFactory.decodeResource(
-                getResources(), R_ID_ERROR_IMAGE);
-        for (String imageURL : mImageURLs) {
-            imageURL = M.toThumbnail(imageURL, M.ImageSize.BIG_SQR);
-            addImageToArrayAdapter(imageURL, loadImage, errorImage, arrayListAdapter);
+                    // put the image on the tile...
+                    imageView.setImageBitmap(getItem(position));
+                    return imageView;
+                }
+            };
+        mImageGridView.setAdapter(adapter);
+
+        final Bitmap loadImage = BitmapFactory.
+                decodeResource(getResources(), R_ID_LOADING_IMAGE);
+        final Bitmap errorImage = BitmapFactory.
+                decodeResource(getResources(), R_ID_ERROR_IMAGE);
+
+        // populate adapter with placeholder loading images
+        while (adapter.getArrayList().size() < mImageURLs.length) {
+            adapter.add(loadImage);
         }
+
+        // download & decoded image Bitmaps into array adapter as we scroll
+        // (and as they become visible)
+        mImageGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            private int minVisibleItem = 1;
+            private int maxVisibleItem = 0;
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                Log.e("onScrollStateChanged.i", String.valueOf(i));
+            }
+
+            /**
+             * callback method to be invoked when the list or grid has been
+             * scrolled. This will be called after the scroll has completed.
+             *
+             * @param view View whose scroll state is being reported
+             * @param firstVisibleItem index of the first visible cell (ignore
+             *   if visibleItemCount == 0)
+             * @param visibleItemCount number of visible cells
+             * @param totalItemCount number of items in the list adaptor
+             */
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                    int visibleItemCount, int totalItemCount) {
+
+                // load all newly visible items that are before what we've last
+                // seen
+                for (int visibleItem = firstVisibleItem;
+                     visibleItem < minVisibleItem; ++visibleItem) {
+                    String imageURL = M.toThumbnail(
+                            mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
+                    loadImage(imageURL, errorImage, adapter, visibleItem);
+
+                }
+
+                // load all newly visible items that are after what we've last
+                // seen
+                int lastVisibleItem = Math.min(
+                        firstVisibleItem+visibleItemCount, totalItemCount-1);
+                for (int visibleItem = lastVisibleItem;
+                     visibleItem > maxVisibleItem; --visibleItem) {
+                    String imageURL = M.toThumbnail(
+                            mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
+                    loadImage(imageURL, errorImage, adapter, visibleItem);
+
+                }
+
+                // update what we've last seen
+                minVisibleItem = Math.min(firstVisibleItem, minVisibleItem);
+                maxVisibleItem = Math.max(lastVisibleItem, minVisibleItem);
+            }
+        });
 
         // add a click listener to the grid view
         mImageGridView.setOnItemClickListener(
@@ -230,48 +285,28 @@ public class ImageGridViewActivity extends Activity {
         });
     }
 
-    /**
-     * first adds a placeholder image into the passed adapter, then fetches the
-     *   image at the URI over the internet. once the image has been loaded, and
-     *   decoded, replace the placeholder image in the passed adapter with it,
-     *   and invoke notifyDataSetChanged().
-     *
-     * @param imageUri URI to image on the internet.
-     * @param loadingBitmap image shown while the image at imageUri is being
-     *   downloaded and decoded.
-     * @param errorBitmap image shown if Volley fails to download and decode the
-     *   image at imageUri.
-     * @param arrayListAdapter adapter that holds the images.
-     */
-    private void addImageToArrayAdapter(final String imageUri,
-            final Bitmap loadingBitmap, final Bitmap errorBitmap,
-            final ArrayListAdapter<Bitmap> arrayListAdapter) {
+    private void loadImage(final String imageURL, final Bitmap errorImage,
+            final ArrayListAdapter<Bitmap> adapter, final int position) {
 
-        // adds a placeholder image into the grid view until the real image
-        // can be downloaded and decoded
-        final ArrayList<Bitmap> adapterArrayList = arrayListAdapter.getArrayList();
-        final int imageIndex = adapterArrayList.size();
-        adapterArrayList.add(loadingBitmap);
+        VolleyManager.getRequestQueue(mContext).add(
+                new ImageRequest(
+                        imageURL, new Response.Listener<Bitmap>() {
 
-        // get the image from the Internet; display it when it's ready
-        ImageRequest request =
-            new ImageRequest(imageUri, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        adapter.getArrayList().set(position, bitmap);
+                        adapter.notifyDataSetChanged();
+                    }
+                }, 0, 0, null, new Response.ErrorListener() {
 
-                @Override
-                public void onResponse(Bitmap bitmap) {
-                    adapterArrayList.set(imageIndex, bitmap);
-                    arrayListAdapter.notifyDataSetChanged();
-                }
-            }, 0, 0, null, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        adapter.getArrayList().set(position, errorImage);
+                        adapter.notifyDataSetChanged();
+                        Log.e("ImageRequest.onErrorResponse",
+                                volleyError.getMessage());
+                    }
+                }));
 
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    adapterArrayList.set(imageIndex, errorBitmap);
-                    arrayListAdapter.notifyDataSetChanged();
-                    Log.e("ImageRequest.onErrorResponse",
-                            volleyError.getMessage());
-                }
-            });
-        VolleyManager.getRequestQueue(mContext).add(request);
     }
 }
