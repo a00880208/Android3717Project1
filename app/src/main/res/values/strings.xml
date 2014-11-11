@@ -29,5 +29,6 @@
     <string name="server_error">Server Error</string>
     <string name="not_found">Address not Found</string>
     <string name="no_internet">No Internet Connection</string>
+    <string name="title_activity_image_upload">ImageUpload</string>
 
 </resources>

@@ -37,6 +37,10 @@
             android:name=".activity.SearchActivity"
             android:label="@string/title_activity_search" >
         </activity>
+        <activity
+            android:name=".ImageUpload"
+            android:label="@string/title_activity_image_upload" >
+        </activity>
     </application>
 
 </manifest>
