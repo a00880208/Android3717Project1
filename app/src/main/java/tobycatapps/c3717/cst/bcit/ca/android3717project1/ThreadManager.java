@@ -23,10 +23,10 @@ public class ThreadManager {
 
 
 
+    /////////////////////////////
+    // DEFINE STATIC CONSTANTS //
+    /////////////////////////////
 
-    // -------------------------------------------------------------------------
-    // DEFINE STATIC CONSTANTS
-    // -------------------------------------------------------------------------
     // ThreadPoolExecutor constructor parameters
     /**
      * Gets the number of available cores
@@ -60,9 +60,10 @@ public class ThreadManager {
 
 
 
-    // -------------------------------------------------------------------------
-    // INSTANTIATE STATIC SUPPORT OBJECTS
-    // -------------------------------------------------------------------------
+    ////////////////////////////////////////
+    // INSTANTIATE STATIC SUPPORT OBJECTS //
+    ////////////////////////////////////////
+
     /** A queue of Runnables instantiated as a LinkedBlockingQueue */
     private static final BlockingQueue<Runnable> workQueue =
             new LinkedBlockingQueue<Runnable>();
@@ -86,10 +87,10 @@ public class ThreadManager {
 
 
 
+    //////////////////
+    // CONSTRUCTORS //
+    //////////////////
 
-    // -------------------------------------------------------------------------
-    // CONSTRUCTORS
-    // -------------------------------------------------------------------------
     /**
      * Constructs the work queues and thread pools used to download
      * and decode images. Because the constructor is marked private,
@@ -140,23 +141,26 @@ public class ThreadManager {
 
 
 
+    ///////////////////////
+    // INTERFACE METHODS //
+    ///////////////////////
 
-    // -------------------------------------------------------------------------
-    // INTERFACE METHODS
-    // -------------------------------------------------------------------------
-    /**
-     * returns the singleton instance for this class
-     */
-    public static ThreadManager getInstance() {
-        return mInstance;
+    public static void doOnWorkerThread(Runnable backgroundTask) {
+        mInstance.mHandler.obtainMessage(ThreadManager.START_RUNNABLE_TASK,
+                backgroundTask).sendToTarget();
+    }
+
+    public static void doOnMainThread(UpdateUITask uiTask) {
+        mInstance.mHandler.obtainMessage(
+                ThreadManager.UPDATE_UI_TASK, uiTask).sendToTarget();
     }
 
 
 
+    /////////////////////
+    // TASK INTERFACES //
+    /////////////////////
 
-    // -------------------------------------------------------------------------
-    // TASK INTERFACES
-    // -------------------------------------------------------------------------
     /**
      * Message type describing a message that needs to run on the UI thread;
      * executed on the same thread as this class (UI thread). Such message types
