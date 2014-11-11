@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +54,11 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        this.mDetector.onTouchEvent(event);
+        //this.mDetector.onTouchEvent(event);
+        MotionEvent.PointerCoords ptrCoords = new MotionEvent.PointerCoords();
+        event.getPointerCoords(0, ptrCoords);
+        Log.e("ptrCoords.x", String.valueOf(ptrCoords.x));
+        Log.e("ptrCoords.y", String.valueOf(ptrCoords.y));
         return super.onTouchEvent(event);
     }
 
@@ -196,4 +201,6 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
         Toast toast = Toast.makeText(getApplicationContext(), "There are no more images!", Toast.LENGTH_SHORT);
         return toast;
     }
+
+    
 }
