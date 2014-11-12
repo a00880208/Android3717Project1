@@ -41,6 +41,10 @@
             android:name=".activity.ImageUploadActivity"
             android:label="@string/title_activity_image_upload" >
         </activity>
+        <activity
+            android:name=".activity.AccountCreation"
+            android:label="@string/title_activity_account_creation" >
+        </activity>
     </application>
 
 </manifest>
