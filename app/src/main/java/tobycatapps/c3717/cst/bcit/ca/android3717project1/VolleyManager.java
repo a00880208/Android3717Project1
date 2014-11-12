@@ -6,6 +6,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 /**
+ * contains functions used to interface with the Volley library.
+ *
  * Created by Eric on 2014-09-18.
  */
 public class VolleyManager {

@@ -20,8 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
-import java.util.ArrayList;
-
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.M;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
@@ -209,55 +207,58 @@ public class ImageGridViewActivity extends Activity {
         // (and as they become visible)
         mImageGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-            private int minVisibleItem = 1;
-            private int maxVisibleItem = 0;
+                /** lower bound index of the AdapterView item that we've seen */
+                private int minVisibleItem = 1;
 
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-                Log.e("onScrollStateChanged.i", String.valueOf(i));
-            }
+                /** upper bound index of the AdapterView item that we've seen */
+                private int maxVisibleItem = 0;
 
-            /**
-             * callback method to be invoked when the list or grid has been
-             * scrolled. This will be called after the scroll has completed.
-             *
-             * @param view View whose scroll state is being reported
-             * @param firstVisibleItem index of the first visible cell (ignore
-             *   if visibleItemCount == 0)
-             * @param visibleItemCount number of visible cells
-             * @param totalItemCount number of items in the list adaptor
-             */
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                    int visibleItemCount, int totalItemCount) {
-
-                // load all newly visible items that are before what we've last
-                // seen
-                for (int visibleItem = firstVisibleItem;
-                     visibleItem < minVisibleItem; ++visibleItem) {
-                    String imageURL = M.toThumbnail(
-                            mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
-                    loadImage(imageURL, errorImage, adapter, visibleItem);
-
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int i) {
+                    Log.e("onScrollStateChanged.i", String.valueOf(i));
                 }
 
-                // load all newly visible items that are after what we've last
-                // seen
-                int lastVisibleItem = Math.min(
-                        firstVisibleItem+visibleItemCount, totalItemCount-1);
-                for (int visibleItem = lastVisibleItem;
-                     visibleItem > maxVisibleItem; --visibleItem) {
-                    String imageURL = M.toThumbnail(
-                            mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
-                    loadImage(imageURL, errorImage, adapter, visibleItem);
+                /**
+                 * callback method to be invoked when the list or grid has been
+                 * scrolled. This will be called after the scroll has completed.
+                 *
+                 * @param view View whose scroll state is being reported
+                 * @param firstVisibleItem index of the first visible cell
+                 *   (ignore if visibleItemCount == 0)
+                 * @param visibleItemCount number of visible cells
+                 * @param totalItemCount number of items in the list adaptor
+                 */
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem,
+                        int visibleItemCount, int totalItemCount) {
 
+                    // load all newly visible items that are before what we've last
+                    // seen
+                    for (int visibleItem = firstVisibleItem;
+                         visibleItem < minVisibleItem; ++visibleItem) {
+                        String imageURL = M.toThumbnail(
+                                mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
+                        loadImage(imageURL, errorImage, adapter, visibleItem);
+
+                    }
+
+                    // load all newly visible items that are after what we've last
+                    // seen
+                    int lastVisibleItem = Math.min(
+                            firstVisibleItem+visibleItemCount, totalItemCount-1);
+                    for (int visibleItem = lastVisibleItem;
+                         visibleItem > maxVisibleItem; --visibleItem) {
+                        String imageURL = M.toThumbnail(
+                                mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
+                        loadImage(imageURL, errorImage, adapter, visibleItem);
+
+                    }
+
+                    // update what we've last seen
+                    minVisibleItem = Math.min(firstVisibleItem, minVisibleItem);
+                    maxVisibleItem = Math.max(lastVisibleItem, minVisibleItem);
                 }
-
-                // update what we've last seen
-                minVisibleItem = Math.min(firstVisibleItem, minVisibleItem);
-                maxVisibleItem = Math.max(lastVisibleItem, minVisibleItem);
-            }
-        });
+            });
 
         // add a click listener to the grid view
         mImageGridView.setOnItemClickListener(
