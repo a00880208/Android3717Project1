@@ -23,13 +23,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:minHeight="200dp"
-        android:minWidth="200dp"
-        android:maxHeight="400dp"
-        android:maxWidth="400dp"
+        android:minHeight="300dp"
+        android:minWidth="300dp"
+        android:maxHeight="300dp"
+        android:maxWidth="300dp"
         android:background="#000000"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"

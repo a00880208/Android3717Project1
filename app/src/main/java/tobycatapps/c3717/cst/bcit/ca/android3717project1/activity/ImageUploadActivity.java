@@ -50,8 +50,7 @@ public class ImageUploadActivity extends Activity
                 if (bitmap != null) {
                     bitmap.recycle();
                 }
-                InputStream stream = getContentResolver().openInputStream(
-                        data.getData());
+                InputStream stream = getContentResolver().openInputStream(data.getData());
                 bitmap = BitmapFactory.decodeStream(stream);
                 stream.close();
                 imageView.setImageBitmap(bitmap);

@@ -23,7 +23,7 @@ public abstract class ImgurUploadTask extends AsyncTask<Void, Void, String>
 {
 
     private final String CLIENT_ID = "ab198a97e0e5954";
-    private static final String imgurUploadUrl = "https://api.imgur.com/3/";
+    private static final String imgurUploadUrl = "https://api.imgur.com/3/image";
 
     private Uri imageUri;
     private Activity activity;
