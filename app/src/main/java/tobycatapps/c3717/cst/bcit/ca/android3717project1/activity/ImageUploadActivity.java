@@ -90,6 +90,8 @@ public class ImageUploadActivity extends Activity
             } else {
                 Toast.makeText(getApplicationContext(), imageId, Toast.LENGTH_SHORT).show();
             }
+
+            //send to database imgurdata
         }
     }
 

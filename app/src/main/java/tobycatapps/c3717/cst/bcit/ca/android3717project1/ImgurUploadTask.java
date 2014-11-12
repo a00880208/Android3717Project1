@@ -21,16 +21,13 @@ import java.util.Scanner;
  */
 public abstract class ImgurUploadTask extends AsyncTask<Void, Void, String>
 {
-
     private final String CLIENT_ID = "ab198a97e0e5954";
     private static final String imgurUploadUrl = "https://api.imgur.com/3/image";
 
     private Uri imageUri;
     private Activity activity;
 
-    public ImgurUploadTask()
-    {
-    }
+    public ImgurUploadTask(){}
 
     public ImgurUploadTask(Uri imageUri, Activity a)
     {
@@ -62,20 +59,18 @@ public abstract class ImgurUploadTask extends AsyncTask<Void, Void, String>
         //Open http connection
         try
         {
+            //pass stuff into the connection
             connectToImgur = (HttpURLConnection) new URL(imgurUploadUrl).openConnection();
             connectToImgur.setDoOutput(true);
-            //pass stuff into the connection
             connectToImgur.setRequestProperty("Authorization", "Client-ID " + CLIENT_ID);
-            //Get imgur return
+            //SEtup outstream for imgur
             imageOut = connectToImgur.getOutputStream();
-
             //Convert imgur return ( outstream) to instream
             putInputToOutput(imageIn, imageOut);
-
             //clean up outputstream
             imageOut.flush();
             imageOut.close();
-
+            //Check if the connection was ok
             if(connectToImgur.getResponseCode() == HttpURLConnection.HTTP_OK)
             {
                 responseIn = connectToImgur.getInputStream();
@@ -105,8 +100,8 @@ public abstract class ImgurUploadTask extends AsyncTask<Void, Void, String>
 
     private static void putInputToOutput(InputStream i, OutputStream o) throws IOException
     {
-        Log.d("ALEX", "converting image to output Line 115");
-        byte[] buffer = new byte[8192];
+        Log.d("ALEX", "converting image to output");
+        byte[] buffer = new byte[1000];
         int n;
 
         while(-1 != (n=i.read(buffer)))
