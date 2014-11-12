@@ -52,14 +52,14 @@ public class MyActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     ///////////////////////
     // interface methods //
     ///////////////////////
     public void launchLogin(View view) {
         //if logged in is true
         findViewById(R.id.btn_imgUpload).setEnabled(true);
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
     }
 
     public void launchRandomPets(View view)
