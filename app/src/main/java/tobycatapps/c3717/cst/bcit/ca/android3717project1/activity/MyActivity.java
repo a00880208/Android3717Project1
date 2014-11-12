@@ -12,15 +12,20 @@ import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 public class MyActivity extends Activity {
 
-
-
+    static boolean loggedIn = false;
     //////////////////////////
     // life cycle callbacks //
     //////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+
+        if(!loggedIn)
+        {
+            findViewById(R.id.btn_imgUpload).setEnabled(false);
+        }
     }
 
 
@@ -53,7 +58,8 @@ public class MyActivity extends Activity {
     // interface methods //
     ///////////////////////
     public void launchLogin(View view) {
-
+        //if logged in is true
+        findViewById(R.id.btn_imgUpload).setEnabled(true);
     }
 
     public void launchRandomPets(View view)
