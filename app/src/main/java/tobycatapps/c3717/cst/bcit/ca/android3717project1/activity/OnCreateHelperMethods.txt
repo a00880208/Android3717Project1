@@ -1,0 +1,22 @@
+    /**
+     * parses the activity's starting intent into corresponding instance fields.
+     */
+    private void parseStartingIntent() {}
+
+    /**
+     * initializes all instance data of this activity.
+     */
+    private void initializeInstanceData() {}
+
+    /**
+     * initializes all GUI references of this activity; initializes all
+     *   GUI references with corresponding views in the layout.
+     */
+    private void initializeGUIReferences() {}
+
+    /**
+     * Sets up the GUI; one time things that are needed to make the GUI behave
+     *   as it should go here (i.e.: setting up GridViews and ListViews with
+     *   their Adapters)
+     */
+    private void configureGUIReferences() {}
