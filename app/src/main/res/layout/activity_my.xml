@@ -50,4 +50,13 @@
         android:gravity="center"
         android:onClick="launchSearch" />
 
+    <Button
+        android:id="@+id/btn_imgUpload"
+        android:text="@string/btn_imgUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_search"
+        android:gravity="center"
+        android:onClick="launchImageUpload" />
+
 </RelativeLayout>

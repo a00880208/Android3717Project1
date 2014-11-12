@@ -6,11 +6,40 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="tobycatapps.c3717.cst.bcit.ca.android3717project1.ImageUpload">
+    tools:context="tobycatapps.c3717.cst.bcit.ca.android3717project1.activity.ImageUploadActivity"
+    android:id="@+id/ImgurUploadActivity">
 
-    <TextView
-        android:text="@string/hello_world"
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Pick Image"
+        android:id="@+id/button"
+        android:onClick="pickImageOnClick"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="41dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:minHeight="200dp"
+        android:minWidth="200dp"
+        android:maxHeight="400dp"
+        android:maxWidth="400dp"
+        android:background="#000000"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        android:id="@+id/button2"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:onClick="uploadOnClick"/>
 
 </RelativeLayout>

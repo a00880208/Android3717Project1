@@ -38,7 +38,7 @@
             android:label="@string/title_activity_search" >
         </activity>
         <activity
-            android:name=".ImageUpload"
+            android:name=".activity.ImageUploadActivity"
             android:label="@string/title_activity_image_upload" >
         </activity>
     </application>

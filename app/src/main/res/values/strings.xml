@@ -13,6 +13,7 @@
     <string name="btn_random">Random Pets!</string>
     <string name="btn_week">Pet of the Week</string>
     <string name="btn_search">Search</string>
+    <string name="btn_imgUpload">Upload Image</string>
     <string name="title_activity_login">LoginActivity</string>
 
     <!-- SearchActivity strings -->
