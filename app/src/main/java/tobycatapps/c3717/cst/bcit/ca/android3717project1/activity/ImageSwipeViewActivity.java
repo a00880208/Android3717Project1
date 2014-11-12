@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -107,16 +108,35 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
         return true;
     }
 
+    /**
+     * invoked by the system when an OptionsMenu MenuItem is clicked.
+     *
+     * @param item reference to the MenuItem that was clicked
+     *
+     * @return true if the callback was properly handled; false otherwise
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        switch (item.getItemId()) {
+
+            /** android's up button is pressed */
+            case android.R.id.home:
+            Intent upIntent = NavUtils.getParentActivityIntent(this);
+            upIntent.putExtra(ImageGridViewActivity.KEY_IMAGE_URIS, parsedUrls);
+            NavUtils.navigateUpTo(this, upIntent);
             return true;
+
+            /** the settings MenuItem was pressed */
+            case R.id.action_settings:
+            return true;
+
+            /** idk; let the system deal with it */
+            default:
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
 
