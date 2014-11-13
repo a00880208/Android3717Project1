@@ -239,8 +239,6 @@ public class SearchActivity extends Activity {
         tagInput10.setChecked(false);
     }
 
-
-
     /////////////////////
     // support methods //
     /////////////////////
