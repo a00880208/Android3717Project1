@@ -162,7 +162,6 @@ public class MyActivity extends Activity {
     }
 
     public void launchSearch(View view) {
-        dbAccess.newUser("asdkkkfg", "4444", this);
         Intent i = new Intent(this, SearchActivity.class);
         startActivity(i);
     }
