@@ -1,13 +1,16 @@
 package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -22,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.activity.ImageGridViewActivity;
+
 /**
  * Created by Alex on 11/12/2014.
  */
@@ -31,71 +36,59 @@ public class dbAccess {
     {
         final String usernameF = username;
         final String passwordF = password;
+
         String url = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/user?apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
 
-        StringRequest sr = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
+        JSONObject payload;
+        try {
+            payload = new JSONObject("{\"userHandle\":\""+usernameF+"\",\"pin\":\""+passwordF+"\"}");
+        } catch (Exception e) {
+            payload = null;
+        }
+
+        JsonObjectRequest sr = new JsonObjectRequest(url, payload,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("ERIC user created", response);
+                    public void onResponse(JSONObject response) {
+                        Log.d("ERIC user created", response.toString());
                     }
                 }, new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("ERIC failed to create user", error.toString()+":"+error.getMessage());
-                    }
-                }) {
-            @Override
-            protected Map<String,String> getParams() {
-                Map<String,String> params = new HashMap<String, String>();
-//                params.put("userHandle", usernameF);
-//                params.put("pin", passwordF);
-                params.put("data", "{\"userHandle\":\""+usernameF+"\",\"pin\":\""+passwordF+"\"}");
-                return params;
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ERIC failed to create user", error.toString()+":"+error.getMessage());
             }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("contentType","application/json");
-                return params;
-            }
-        };
+        });
         VolleyManager.getRequestQueue(context).add(sr);
     }
 
 
-    public void uploadImage(String imageId, String deleteHash, Context context)
+    public static void uploadImage(String uploader, String imageId, Context context)
     {
 
         final String imageIdF = imageId;
-        final String deleteHashF = deleteHash;
 
-        String url = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/images?apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx/";
+        String url = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
 
-        StringRequest sr = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
+        JSONObject payload;
+        try {
+            payload = new JSONObject(
+                    "{\"imgurid\":\""+imageIdF+"\"," +
+                            "\"URL\":\"http://i.imgur.com/"+imageId+".jpg\"," +
+                            "\"Uploader\":\""+uploader+"\"}");
+        } catch (Exception e) {
+            payload = null;
+        }
+
+        JsonObjectRequest sr = new JsonObjectRequest(url, payload,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("ERIC user created", response);
+                    public void onResponse(JSONObject response) {
+                        Log.d("ERIC image uploaded", response.toString());
                     }
                 }, new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
-                Log.e("ERIC failed to create user", error.getMessage());
+                Log.e("ERIC failed to upload image", error.toString()+":"+error.getMessage());
             }
-        }) {
-            @Override
-            protected Map<String,String> getParams() {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("imgurid", imageIdF);
-                params.put("_deleteHash", deleteHashF);
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return null;
-            }
-        };
+        });
         VolleyManager.getRequestQueue(context).add(sr);
 
     }
@@ -183,8 +176,8 @@ public class dbAccess {
     }
 
     public static void getUserImages(Context c, String uploaderName,
-            final Response.Listener<ArrayList<String>> userResponseListener,
-            Response.ErrorListener userErrorListener) {
+                                     final Response.Listener<ArrayList<String>> userResponseListener,
+                                     Response.ErrorListener userErrorListener) {
 
         // construct query
         StringBuilder query = new StringBuilder();
