@@ -3,20 +3,16 @@ package tobycatapps.c3717.cst.bcit.ca.android3717project1.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 
 import java.util.ArrayList;
 
-import tobycatapps.c3717.cst.bcit.ca.android3717project1.SessionData;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.SessionData;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.dbAccess;
 
 
@@ -40,7 +36,7 @@ public class MyActivity extends Activity {
 
         if(!session.isLoggedIn)
         {
-            findViewById(R.id.btn_imgUpload).setEnabled(false);
+            logoutButtonSet();
         }
 
 
@@ -189,12 +185,8 @@ public class MyActivity extends Activity {
                 boolean loggedIn = data.getExtras().getBoolean("result");
                 if(loggedIn)
                 {
+                    loginButtonSet(data.getStringExtra("userHandle"));
                     //if logged in is true
-                    session.isLoggedIn = true;
-                    session.userHandle = data.getStringExtra("userHandle");
-                    findViewById(R.id.btn_imgUpload).setEnabled(true);
-
-                    findViewById(R.id.btn_login).setVisibility(View.GONE);
                 }
             }
             if (resultCode == RESULT_CANCELED) {
@@ -205,9 +197,7 @@ public class MyActivity extends Activity {
 
     public void launchLogout(View view)
     {
-        session.isLoggedIn = false;
-        findViewById(R.id.btn_imgUpload).setEnabled(false);
-        findViewById(R.id.btn_login).setVisibility(View.VISIBLE);
+        logoutButtonSet();
     }
 
     public void launchMyAccount(View view)
@@ -225,5 +215,21 @@ public class MyActivity extends Activity {
             }
         };
         dbAccess.getUserImages(this, user, r, null);
+    }
+
+    private void loginButtonSet(String userhandle)
+    {
+        session.isLoggedIn = true;
+        session.userHandle = userhandle;
+        findViewById(R.id.btn_imgUpload).setEnabled(true);
+        findViewById(R.id.btn_MyAccount).setEnabled(true);
+        findViewById(R.id.btn_login).setVisibility(View.GONE);
+    }
+
+    private void logoutButtonSet()
+    {    session.isLoggedIn = false;
+        findViewById(R.id.btn_login).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_imgUpload).setEnabled(false);
+        findViewById(R.id.btn_MyAccount).setEnabled(false);
     }
 }

@@ -83,7 +83,7 @@
             android:text="@string/btn_myAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btn_login"
+            android:layout_below="@id/btn_logout"
             android:gravity="center"
             android:onClick="launchMyAccount" />
 
