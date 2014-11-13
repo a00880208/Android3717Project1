@@ -11,6 +11,8 @@ import android.widget.GridView;
 
 import java.util.HashMap;
 
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
+
 public class UserImageGridViewActivity extends ImageGridViewActivity
 {
     @Override
@@ -18,6 +20,7 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
     {
         //call parent constructor
         super.onCreate(savedInstanceState);
+        findViewById(R.id.btn_imgUpload).setVisibility(View.VISIBLE);
         //create a HashMap which contains all the images in the GridView that have been selected
         final HashMap<Integer, Boolean> mSelection = new HashMap<Integer, Boolean>();
         //an adapter class that holds images

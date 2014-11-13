@@ -1,9 +1,7 @@
 package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,8 +21,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import tobycatapps.c3717.cst.bcit.ca.android3717project1.activity.ImageGridViewActivity;
 
 /**
  * Created by Alex on 11/12/2014.
