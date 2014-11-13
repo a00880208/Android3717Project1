@@ -45,7 +45,7 @@ public class ImageGridViewActivity extends Activity {
     // GUI references //
     ////////////////////
     /** reference to grid view that contains all the images */
-    private static GridView mImageGridView;
+    protected static GridView mImageGridView;
 
 
     /////////////////////
