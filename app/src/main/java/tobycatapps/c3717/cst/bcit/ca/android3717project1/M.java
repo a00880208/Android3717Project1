@@ -67,4 +67,15 @@ public class M {
         String imageUrl = uri.substring(start, end);
         return "http://" + imageUrl + thumbSize.getUriSuffix() + ".jpg";
     }
+
+    /**
+     * Gets the imgur unique id from the URL. Used in deleting an image from the database
+     */
+    public static String getUriID(String uri)
+    {
+        int start = "http://i.imgur.com".length();
+        int end = "i.imgur.com/XXXXXXX".length();
+        String id = uri.substring(start, end);
+        return id;
+    }
 }

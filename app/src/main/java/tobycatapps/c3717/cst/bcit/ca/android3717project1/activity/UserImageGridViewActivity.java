@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.ImgurUploadTask;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.M;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.dbAccess;
 
@@ -55,12 +56,13 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
                 builder1.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+
+                                //put code to remove the image from the DB
+                                dbAccess.deleteImage(M.getUriID(mImageURLs.get(position)), UserImageGridViewActivity.this);
                                 //put code to remove the image from the gridview
                                 myAdapter.getArrayList().remove(position);
                                 mImageURLs.remove(position);
                                 myAdapter.notifyDataSetChanged();
-                                //put code to remove the image from the DB
-                                
                                 //close the dialog after click
                                 dialog.cancel();
                             }
@@ -110,9 +112,8 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
                 {
                     Toast.makeText(getApplicationContext(), imageId, Toast.LENGTH_SHORT).show();
                     //get the new list of URI
-                    String temp = "http://i.imgur.com/"+imageId+".jpg";
+                    String temp = "i.imgur.com/"+imageId+".jpg";
                     mImageURLs.add(temp);
-                    Log.d("MALFORMED URL: ", temp);
                     myAdapter.getArrayList().add(null);
                     loadImage(temp, myAdapter, mImageURLs.size() - 1);
                     //add item to the database
