@@ -190,7 +190,7 @@ public class ImageGridViewActivity extends Activity {
         mImageGridView.setOnItemClickListener(new MyOnItemClickListener());
     }
 
-    private void loadImage(final String imageURL, final Bitmap errorImage,
+    protected void loadImage(final String imageURL,
             final ArrayListAdapter<Bitmap> adapter, final int position) {
 
         VolleyManager.getRequestQueue(mContext).add(
@@ -206,7 +206,7 @@ public class ImageGridViewActivity extends Activity {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        adapter.getArrayList().set(position, errorImage);
+                        adapter.getArrayList().set(position, mErrorImage);
                         adapter.notifyDataSetChanged();
                         Log.e("ImageRequest.onErrorResponse",
                                 volleyError.getMessage());
@@ -262,7 +262,7 @@ public class ImageGridViewActivity extends Activity {
                  visibleItem < mMinVisibleItem; ++visibleItem) {
                 String imageURL = M.toThumbnail(
                         mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
-                loadImage(imageURL, mErrorImage, mAdapter, visibleItem);
+                loadImage(imageURL, mAdapter, visibleItem);
 
             }
 
@@ -275,7 +275,7 @@ public class ImageGridViewActivity extends Activity {
                  visibleItem > mMaxVisibleItem; --visibleItem) {
                 String imageURL = M.toThumbnail(
                         mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
-                loadImage(imageURL, mErrorImage, mAdapter, visibleItem);
+                loadImage(imageURL, mAdapter, visibleItem);
 
             }
 

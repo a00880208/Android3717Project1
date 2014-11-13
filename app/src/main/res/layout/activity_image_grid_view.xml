@@ -21,11 +21,12 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Upload New Image"
         android:id="@+id/btn_addImage"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_addImage" />
+        android:layout_below="@id/btn_addImage"
+        android:onClick="uploadImageButton"/>
 
 </RelativeLayout>
