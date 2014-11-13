@@ -72,4 +72,15 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Don't have an account? Register here!"
+        android:id="@+id/RegisterText"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onRegisterLinkClick"
+        android:clickable="true"/>
+
 </RelativeLayout>

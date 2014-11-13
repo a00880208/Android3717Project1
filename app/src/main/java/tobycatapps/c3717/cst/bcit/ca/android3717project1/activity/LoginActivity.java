@@ -141,4 +141,10 @@ public class LoginActivity extends Activity {
             Toast.makeText(LoginActivity.this, "seems not legit", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void onRegisterLinkClick(View view)
+    {
+        Intent i = new Intent(this, AccountCreation.class);
+        startActivity(i);
+    }
 }
