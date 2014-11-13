@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.ImgurUploadTask;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.dbAccess;
 
 public class UserImageGridViewActivity extends ImageGridViewActivity
 {
@@ -59,7 +60,7 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
                                 mImageURLs.remove(position);
                                 myAdapter.notifyDataSetChanged();
                                 //put code to remove the image from the DB
-
+                                
                                 //close the dialog after click
                                 dialog.cancel();
                             }
@@ -99,7 +100,7 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
         }
 
         @Override
-        public void onPostExecute(String imageId) {
+        public void onPostExecute(String imageId){
             super.onPostExecute(imageId);
             boolean test = (imageId == null);
             if (test) {
@@ -113,13 +114,13 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
                     mImageURLs.add(temp);
                     Log.d("MALFORMED URL: ", temp);
                     myAdapter.getArrayList().add(null);
-                    loadImage(imageId, myAdapter, mImageURLs.size() - 1);
-                    //repopulate GridView
-                    //mImageGridView.invalidateViews();
+                    loadImage(temp, myAdapter, mImageURLs.size() - 1);
+                    //add item to the database
+                    dbAccess.uploadImage(MyActivity.session.userHandle, imageId, UserImageGridViewActivity.this);
                 }
-                catch (RuntimeException e)
+                catch (Exception e)
                 {
-
+                    Log.e("Exception: ", e.toString());
                 }
 
             }
