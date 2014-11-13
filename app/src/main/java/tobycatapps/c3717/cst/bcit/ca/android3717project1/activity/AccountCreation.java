@@ -8,8 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.android.volley.Response;
+
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.DatabaseUser;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.dbAccess;
 
 public class AccountCreation extends Activity
 {
@@ -54,13 +57,23 @@ public class AccountCreation extends Activity
         user.setUserHandle(et_userHandle.getText().toString());
         user.setPin(et_pin.getText().toString());
 
-        //asynch task to send the user info to the DB
+        final String userHandle = user.getUserHandle();
 
-        //on success account creation
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("result", true);
-        returnIntent.putExtra("userHandle", user.getId());
-        setResult(RESULT_OK, returnIntent);
-        finish();
+        Response.Listener<Boolean> r = new Response.Listener<Boolean>()
+        {
+            public void onResponse(Boolean response) {
+                //on success account creation
+                if(response)
+                {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result", true);
+                    returnIntent.putExtra("userHandle", userHandle);
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        };
+
+        dbAccess.newUser(this, user.getUserHandle(), user.getPin(), r);
     }
 }
