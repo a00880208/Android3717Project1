@@ -65,7 +65,7 @@ public class MyActivity extends Activity {
 
     public void launchRandomPets(View view)
     {
-        Intent i = new Intent(this, ImageGridViewActivity.class);
+        Intent i = new Intent(this, UserImageGridViewActivity.class);
         i.putExtra(ImageGridViewActivity.KEY_IMAGE_URIS, new String[] {
                 "http://i.imgur.com/SV7nyMD.jpg",
                 "http://i.imgur.com/vuHylTZ.jpg",

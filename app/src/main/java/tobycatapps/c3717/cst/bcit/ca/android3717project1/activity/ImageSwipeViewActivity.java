@@ -37,7 +37,7 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_swipe_view);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         mImageView = (ImageView) findViewById(R.id.imageViewer);
 
         System.out.println("ALEX: ImageSwipeView launched!");
@@ -54,11 +54,7 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //this.mDetector.onTouchEvent(event);
-        MotionEvent.PointerCoords ptrCoords = new MotionEvent.PointerCoords();
-        event.getPointerCoords(0, ptrCoords);
-        Log.e("ptrCoords.x", String.valueOf(ptrCoords.x));
-        Log.e("ptrCoords.y", String.valueOf(ptrCoords.y));
+        this.mDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
 
