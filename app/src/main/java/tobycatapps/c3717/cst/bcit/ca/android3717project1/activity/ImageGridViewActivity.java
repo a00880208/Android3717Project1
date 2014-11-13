@@ -22,6 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
+import java.util.ArrayList;
+
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.M;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
@@ -38,7 +40,7 @@ public class ImageGridViewActivity extends Activity {
             "tobycatapps.c3717.cst.bcit.ca.android3717project1.KEY_IMAGE_URIS";
 
     /** array of image URIs extracted from the starting intent */
-    private String[] mImageURLs;
+    protected ArrayList<String> mImageURLs;
 
 
     ////////////////////
@@ -142,7 +144,7 @@ public class ImageGridViewActivity extends Activity {
      * parses the activity's starting intent into corresponding instance fields.
      */
     private void parseStartingIntent() {
-        mImageURLs = getIntent().getStringArrayExtra(KEY_IMAGE_URIS);
+        mImageURLs = getIntent().getStringArrayListExtra(KEY_IMAGE_URIS);
     }
 
     /**
@@ -176,7 +178,7 @@ public class ImageGridViewActivity extends Activity {
         // instantiate & populate adapter with placeholder loading images
         ArrayListAdapter<Bitmap> adapter = new MyImageAdapter<Bitmap>(mContext);
         mImageGridView.setAdapter(adapter);
-        while (adapter.getArrayList().size() < mImageURLs.length) {
+        while (adapter.getArrayList().size() < mImageURLs.size()) {
             adapter.add(mLoadingImage);
         }
 
@@ -259,7 +261,7 @@ public class ImageGridViewActivity extends Activity {
             for (int visibleItem = firstVisibleItem;
                  visibleItem < mMinVisibleItem; ++visibleItem) {
                 String imageURL = M.toThumbnail(
-                        mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
+                        mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
                 loadImage(imageURL, mErrorImage, mAdapter, visibleItem);
 
             }
@@ -272,7 +274,7 @@ public class ImageGridViewActivity extends Activity {
             for (int visibleItem = lastVisibleItem;
                  visibleItem > mMaxVisibleItem; --visibleItem) {
                 String imageURL = M.toThumbnail(
-                        mImageURLs[visibleItem], M.ImageSize.BIG_SQR);
+                        mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
                 loadImage(imageURL, mErrorImage, mAdapter, visibleItem);
 
             }

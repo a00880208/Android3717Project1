@@ -17,14 +17,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
+import java.util.ArrayList;
+
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 public class ImageSwipeViewActivity extends Activity implements GestureDetector.OnGestureListener{
 
-    int galleryIndex;
-    String[] parsedUrls;
-    ImageView mImageView;
+    private int galleryIndex;
+    private ArrayList<String> parsedUrls;
+    private ImageView mImageView;
 
     public final static String URL_LIST =
             "tobycatapps.c3717.cst.bcit.ca.android3717project1.urlist";
@@ -43,10 +45,10 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
         System.out.println("ALEX: ImageSwipeView launched!");
 
         Intent randomPetsIntent = getIntent();
-        parsedUrls = randomPetsIntent.getStringArrayExtra(URL_LIST);
+        parsedUrls = randomPetsIntent.getStringArrayListExtra(URL_LIST);
 
         galleryIndex = randomPetsIntent.getIntExtra(INDEX, 0);
-        openImage(parsedUrls,galleryIndex, mImageView);
+        openImage(galleryIndex, mImageView);
 
         mDetector = new GestureDetector(this, this);
 
@@ -144,10 +146,10 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
 
     //Open image function takes the array of strings, parses the right one out and then updates
     //the view with the image
-    public void openImage(String[] parsedUrls, int galleryIndex, final ImageView imageView)
+    public void openImage(int galleryIndex, final ImageView imageView)
     {
         ImageRequest request =
-                new ImageRequest(parsedUrls[galleryIndex], new Response.Listener<Bitmap>() {
+                new ImageRequest(parsedUrls.get(galleryIndex), new Response.Listener<Bitmap>() {
                     public void onResponse(Bitmap bitmap) {
                         imageView.setImageBitmap(bitmap);
                     }
@@ -163,11 +165,11 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
     public void NextImage()
     {
         System.out.println("ALEX: NEXTIMAGE");
-        if(galleryIndex < parsedUrls.length -1)
+        if(galleryIndex < parsedUrls.size() -1)
         {
             galleryIndex++;
-            System.out.println("ALEX: "+galleryIndex+" "+parsedUrls[galleryIndex]);
-            openImage(parsedUrls, galleryIndex, mImageView);
+            System.out.println("ALEX: "+galleryIndex+" "+parsedUrls.get(galleryIndex));
+            openImage(galleryIndex, mImageView);
         }
         else
         {
@@ -182,7 +184,7 @@ public class ImageSwipeViewActivity extends Activity implements GestureDetector.
         if(galleryIndex > 0)
         {
             galleryIndex--;
-            openImage(parsedUrls, galleryIndex, mImageView);
+            openImage(galleryIndex, mImageView);
         }
         else
         {

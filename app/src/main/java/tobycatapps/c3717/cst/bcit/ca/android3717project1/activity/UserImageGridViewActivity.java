@@ -34,6 +34,7 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
                             public void onClick(DialogInterface dialog, int id) {
                                 //put code to remove the image from the gridview
                                 myAdapter.getArrayList().remove(position);
+                                mImageURLs.remove(position);
                                 myAdapter.notifyDataSetChanged();
                                 //put code to remove the image from the DB
 
