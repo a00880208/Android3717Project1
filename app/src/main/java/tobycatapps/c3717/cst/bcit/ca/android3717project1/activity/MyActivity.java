@@ -7,12 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.SessionData;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
 
 public class MyActivity extends Activity {
 
-    static boolean loggedIn = false;
+    static SessionData session;
     //////////////////////////
     // life cycle callbacks //
     //////////////////////////
@@ -22,10 +23,17 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        if(!loggedIn)
+        session = new SessionData();
+
+        //Set logged in to false
+        session.isLoggedIn = false;
+
+        if(!session.isLoggedIn)
         {
             findViewById(R.id.btn_imgUpload).setEnabled(false);
         }
+
+
     }
 
     ///////////////////////
@@ -53,30 +61,6 @@ public class MyActivity extends Activity {
     ///////////////////////
     // interface methods //
     ///////////////////////
-    public void launchLogin(View view) {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivityForResult(i, 1);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
-                boolean loggedIn = data.getExtras().getBoolean("result");
-                if(loggedIn)
-                {
-                    //if logged in is true
-                    findViewById(R.id.btn_imgUpload).setEnabled(true);
-                }
-            }
-            if (resultCode == RESULT_CANCELED) {
-                //Fill in later
-            }
-        }
-        /*
-        todo: SHOULD PROBABLY SET A GLOBAL BOOLEAN SOMEWHERE TO DO STUFF
-         */
-    }
 
     public void launchRandomPets(View view)
     {
@@ -180,5 +164,37 @@ public class MyActivity extends Activity {
     {
         Intent i = new Intent(this, ImageUploadActivity.class);
         startActivity(i);
+    }
+
+    public void launchLogin(View view) {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivityForResult(i, 1);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                boolean loggedIn = data.getExtras().getBoolean("result");
+                if(loggedIn)
+                {
+                    //if logged in is true
+                    session.isLoggedIn = true;
+                    findViewById(R.id.btn_imgUpload).setEnabled(true);
+
+                    findViewById(R.id.btn_login).setVisibility(View.GONE);
+                }
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Fill in later
+            }
+        }
+    }
+
+    public void launchLogout(View view)
+    {
+        session.isLoggedIn = false;
+        findViewById(R.id.btn_imgUpload).setEnabled(false);
+        findViewById(R.id.btn_login).setVisibility(View.VISIBLE);
     }
 }
