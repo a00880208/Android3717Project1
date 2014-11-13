@@ -226,7 +226,7 @@ public class ImageGridViewActivity extends Activity {
     private class MyOnScrollListener implements AbsListView.OnScrollListener {
 
         /** lower bound index of the AdapterView item that we've seen */
-        private int mMinVisibleItem = 1;
+        private int mMinVisibleItem = 0;
 
         /** upper bound index of the AdapterView item that we've seen */
         private int mMaxVisibleItem = 0;
@@ -259,11 +259,13 @@ public class ImageGridViewActivity extends Activity {
             // load all newly visible items that are before what we've
             // last seen
             for (int visibleItem = firstVisibleItem;
-                 visibleItem < mMinVisibleItem; ++visibleItem) {
-                String imageURL = M.toThumbnail(
-                        mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
-                loadImage(imageURL, mAdapter, visibleItem);
+                    visibleItem <= mMinVisibleItem; ++visibleItem) {
 
+                if (visibleItem >= 0 && visibleItem < totalItemCount) {
+                    String imageURL = M.toThumbnail(
+                            mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
+                    loadImage(imageURL, mAdapter, visibleItem);
+                }
             }
 
             // load all newly visible items that are after what we've
@@ -272,11 +274,13 @@ public class ImageGridViewActivity extends Activity {
                     firstVisibleItem+visibleItemCount,
                     totalItemCount-1);
             for (int visibleItem = lastVisibleItem;
-                 visibleItem > mMaxVisibleItem; --visibleItem) {
-                String imageURL = M.toThumbnail(
-                        mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
-                loadImage(imageURL, mAdapter, visibleItem);
+                    visibleItem > mMaxVisibleItem; --visibleItem) {
 
+                if (visibleItem >= 0 && visibleItem < totalItemCount) {
+                    String imageURL = M.toThumbnail(
+                            mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
+                    loadImage(imageURL, mAdapter, visibleItem);
+                }
             }
 
             // update what we've last seen
