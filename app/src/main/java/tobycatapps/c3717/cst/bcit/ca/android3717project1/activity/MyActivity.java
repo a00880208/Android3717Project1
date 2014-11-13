@@ -9,6 +9,7 @@ import android.view.View;
 
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.SessionData;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.dbAccess;
 
 
 public class MyActivity extends Activity {
@@ -156,6 +157,7 @@ public class MyActivity extends Activity {
     }
 
     public void launchSearch(View view) {
+        dbAccess.newUser("asdkkkfg", "4444", this);
         Intent i = new Intent(this, SearchActivity.class);
         startActivity(i);
     }

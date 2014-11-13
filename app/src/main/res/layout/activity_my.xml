@@ -34,24 +34,13 @@
             android:onClick="launchRandomPets" />
 
         <Button
-            android:id="@+id/btn_week"
-            android:src="@drawable/custom_button_normal"
-            android:background="@drawable/custom_button_normal"
-            android:text="@string/btn_week"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_random"
-            android:gravity="center"
-            android:onClick="launchWeeklyPets" />
-
-        <Button
             android:id="@+id/btn_search"
             android:src="@drawable/custom_button_normal"
             android:background="@drawable/custom_button_normal"
             android:text="@string/btn_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btn_week"
+            android:layout_below="@id/btn_random"
             android:gravity="center"
             android:onClick="launchSearch" />
 
