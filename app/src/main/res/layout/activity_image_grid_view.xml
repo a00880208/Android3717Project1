@@ -16,7 +16,6 @@
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
-        android:layout_above="@id/btn_addImage"
         android:gravity="center" />
 
     <Button
@@ -26,6 +25,7 @@
         android:id="@+id/btn_addImage"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_addImage" />
 
 </RelativeLayout>
