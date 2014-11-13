@@ -140,7 +140,7 @@ public class LoginActivity extends Activity {
 
     public void onRegisterLinkClick(View view)
     {
-        Intent i = new Intent(this, AccountCreation.class);
+        Intent i = new Intent(this, AccountCreationActivity.class);
         startActivityForResult(i, 2);
     }
 

@@ -12,8 +12,9 @@ import com.android.volley.Response;
 
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.DatabaseUser;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.dbAccess;
 
-public class AccountCreation extends Activity
+public class AccountCreationActivity extends Activity
 {
     EditText et_userHandle;
     EditText et_pin;
@@ -73,6 +74,6 @@ public class AccountCreation extends Activity
             }
         };
 
-        //dbAccess.newUser(this, user.getUserHandle(), user.getPin(), r);
+        dbAccess.newUser(this, user.getUserHandle(), user.getPin(), r);
     }
 }
