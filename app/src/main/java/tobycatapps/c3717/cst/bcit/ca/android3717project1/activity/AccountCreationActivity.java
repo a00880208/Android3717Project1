@@ -22,11 +22,11 @@ public class AccountCreationActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_account_creation);
 
         et_userHandle = (EditText) findViewById(R.id.ac_et_label_username);
         et_pin = (EditText) findViewById(R.id.ac_et_label_pin);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_creation);
     }
 
 
