@@ -18,7 +18,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:id="@+id/relativeLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,6 +58,18 @@
             android:layout_below="@id/editTextPassword"
             android:layout_centerHorizontal="true"
             android:text="Go!"
-            android:id="@+id/button" />
+            android:id="@+id/goButton"
+            android:onClick="onGoClick"
+            android:layout_marginBottom="5dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/goButton"/>
+
     </RelativeLayout>
+
 </RelativeLayout>

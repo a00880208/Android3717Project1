@@ -28,8 +28,6 @@ public class MyActivity extends Activity {
         }
     }
 
-
-
     ///////////////////////
     // android callbacks //
     ///////////////////////
@@ -56,10 +54,28 @@ public class MyActivity extends Activity {
     // interface methods //
     ///////////////////////
     public void launchLogin(View view) {
-        //if logged in is true
-        findViewById(R.id.btn_imgUpload).setEnabled(true);
         Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
+        startActivityForResult(i, 1);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                boolean loggedIn = data.getExtras().getBoolean("result");
+                if(loggedIn)
+                {
+                    //if logged in is true
+                    findViewById(R.id.btn_imgUpload).setEnabled(true);
+                }
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Fill in later
+            }
+        }
+        /*
+        todo: SHOULD PROBABLY SET A GLOBAL BOOLEAN SOMEWHERE TO DO STUFF
+         */
     }
 
     public void launchRandomPets(View view)
