@@ -59,6 +59,7 @@ public class AccountCreation extends Activity
         //on success account creation
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result", true);
+        returnIntent.putExtra("userHandle", user.getId());
         setResult(RESULT_OK, returnIntent);
         finish();
     }

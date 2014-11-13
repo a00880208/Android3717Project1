@@ -76,6 +76,17 @@
             android:gravity="center"
             android:onClick="launchLogin" />
 
+        <Button
+            android:id="@+id/btn_MyAccount"
+            android:src="@drawable/custom_button_normal"
+            android:background="@drawable/custom_button_normal"
+            android:text="@string/btn_myAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_login"
+            android:gravity="center"
+            android:onClick="launchMyAccount" />
+
     </RelativeLayout>
 
 </RelativeLayout>

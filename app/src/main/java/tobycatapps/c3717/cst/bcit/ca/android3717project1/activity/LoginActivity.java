@@ -38,7 +38,7 @@ public class LoginActivity extends Activity {
     String password;
     public void onGoClick(View view)
     {
-        String login = ((EditText)findViewById(R.id.editTextUsername)).getText().toString();
+        final String login = ((EditText)findViewById(R.id.editTextUsername)).getText().toString();
         password = ((EditText)findViewById(R.id.editTextPassword)).getText().toString();
         spinner.setVisibility(View.VISIBLE);
 
@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
                             }
                         }
 
-                        validatePass(pass, password);
+                        validatePass(login, pass, password);
                     }
                 },
 
@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void validatePass(String pass, String password)
+    private void validatePass(String login, String pass, String password)
     {
 
         String test = pass + " : " + password;
@@ -130,7 +130,7 @@ public class LoginActivity extends Activity {
         if(password.equals(pass))
         {
             Toast.makeText(LoginActivity.this, "seems legit", Toast.LENGTH_SHORT).show();
-            loginComplete();
+            loginComplete(login);
         }
         else
         {
@@ -148,7 +148,8 @@ public class LoginActivity extends Activity {
     {
         if (requestCode == 2) {
             if(resultCode == RESULT_OK){
-                loginComplete();
+                String userhandle = data.getStringExtra("userHandle");
+                loginComplete(userhandle);
             }
             if (resultCode == RESULT_CANCELED) {
                 //Fill in later
@@ -156,9 +157,10 @@ public class LoginActivity extends Activity {
         }
     }
 
-    public void loginComplete()
+    public void loginComplete(String userhandle)
     {
         Intent returnIntent = new Intent();
+        returnIntent.putExtra("userHandle", userhandle);
         returnIntent.putExtra("result", true);
         setResult(RESULT_OK, returnIntent);
         finish();

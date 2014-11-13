@@ -9,6 +9,7 @@
     <string name="title_activity_start_image_grid_view">StartImageGridViewActivity</string>
 
     <!-- LoginActivity Strings -->
+    <string name="btn_myAccount">My Account</string>
     <string name="btn_login">Login</string>
     <string name="btn_logout">Logout</string>
     <string name="btn_random">Random Pets!</string>

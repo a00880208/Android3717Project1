@@ -185,6 +185,7 @@ public class MyActivity extends Activity {
                 {
                     //if logged in is true
                     session.isLoggedIn = true;
+                    session.userHandle = data.getStringExtra("userHandle");
                     findViewById(R.id.btn_imgUpload).setEnabled(true);
 
                     findViewById(R.id.btn_login).setVisibility(View.GONE);
@@ -201,5 +202,14 @@ public class MyActivity extends Activity {
         session.isLoggedIn = false;
         findViewById(R.id.btn_imgUpload).setEnabled(false);
         findViewById(R.id.btn_login).setVisibility(View.VISIBLE);
+    }
+
+    public void launchMyAccount(View view)
+    {
+        String user = session.userHandle;
+        String url="https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?q={\"Uploader\":\""+user+"\"}&apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
+
+        
+
     }
 }

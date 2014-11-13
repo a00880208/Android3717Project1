@@ -6,5 +6,6 @@ package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 public class SessionData {
 
     public boolean isLoggedIn;
+    public String userHandle;
 
 }
