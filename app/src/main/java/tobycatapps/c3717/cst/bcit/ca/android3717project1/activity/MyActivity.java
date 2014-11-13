@@ -224,6 +224,6 @@ public class MyActivity extends Activity {
                 startActivity(i);
             }
         };
-        dbAccess.getUserImages(user, r);
+        dbAccess.getUserImages(this, user, r, null);
     }
 }

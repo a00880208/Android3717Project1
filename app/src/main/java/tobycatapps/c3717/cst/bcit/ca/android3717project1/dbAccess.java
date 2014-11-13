@@ -1,7 +1,9 @@
 package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,8 +20,11 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.activity.ImageGridViewActivity;
 
 /**
  * Created by Alex on 11/12/2014.
@@ -40,22 +45,22 @@ public class dbAccess {
                     }
                 }, new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("ERIC", error + "");
-                        Log.e("ERIC failed to create user", error.getMessage());
+                        Log.e("ERIC failed to create user", error.toString()+":"+error.getMessage());
                     }
                 }) {
             @Override
             protected Map<String,String> getParams() {
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("userHandle", usernameF);
-                params.put("pin", passwordF);
+//                params.put("userHandle", usernameF);
+//                params.put("pin", passwordF);
+                params.put("data", "{\"userHandle\":\""+usernameF+"\",\"pin\":\""+passwordF+"\"}");
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/json");
+                params.put("contentType","application/json");
                 return params;
             }
         };
@@ -180,4 +185,44 @@ public class dbAccess {
             e.printStackTrace();
         }
     }
+
+    public static void getUserImages(Context c, String uploaderName,
+            final Response.Listener<ArrayList<String>> userResponseListener,
+            Response.ErrorListener userErrorListener) {
+
+        // construct query
+        StringBuilder query = new StringBuilder();
+        query.append("{");
+        if (!uploaderName.isEmpty()) {
+            query.append("\"Uploader\":\"");
+            query.append(uploaderName);
+        }
+        query.append("\"}");
+        String url = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx&"
+                + "q=" + query.toString();
+
+        // execute query and start the gridview activity
+        JsonArrayRequest request = new JsonArrayRequest(url,
+
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray data) {
+                        ArrayList<String> imageUris = new ArrayList<String>();
+                        for (int i = 0; i < data.length(); ++i) {
+                            try {
+                                JSONObject imageData = data.getJSONObject(i);
+                                imageUris.add(imageData.getString("URL"));
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e.toString());
+                            }
+                        }
+                        userResponseListener.onResponse(imageUris);
+                    }
+                },
+
+                userErrorListener);
+
+        VolleyManager.getRequestQueue(c).add(request);
+    }
+
 }
