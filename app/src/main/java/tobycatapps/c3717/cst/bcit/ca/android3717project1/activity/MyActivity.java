@@ -3,9 +3,15 @@ package tobycatapps.c3717.cst.bcit.ca.android3717project1.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import java.util.ArrayList;
 
@@ -207,9 +213,17 @@ public class MyActivity extends Activity {
     public void launchMyAccount(View view)
     {
         String user = session.userHandle;
-        String url="https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?q={\"Uploader\":\""+user+"\"}&apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
+        final Intent i = new Intent(this, UserImageGridViewActivity.class);
 
-        
-
+        Response.Listener<ArrayList<String>> r = new Response.Listener<ArrayList<String>>()
+        {
+            public void onResponse(ArrayList<String> response) {
+                ArrayList<String> imageUris;
+                imageUris = response;
+                i.putExtra(ImageGridViewActivity.KEY_IMAGE_URIS, imageUris);
+                startActivity(i);
+            }
+        };
+        dbAccess.getUserImages(user, r);
     }
 }
