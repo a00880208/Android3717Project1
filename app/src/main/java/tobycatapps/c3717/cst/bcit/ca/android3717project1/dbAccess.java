@@ -102,53 +102,32 @@ public class dbAccess {
         String urlp2 = "\"}&apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
         String url = urlp1 + imageIdF + urlp2;
 
-        JsonArrayRequest request = new JsonArrayRequest(
-                url,
+        JSONObject payload;
+        try {
+            payload = new JSONObject(
+                    "{\"imgurid\":\""+imageIdF+"\"," +
+                            "\"URL\":\"http://i.imgur.com/"+imageId+".jpg\"," +
+                            "\"Uploader\":\""+"\"}");
+        } catch (Exception e) {
+            payload = null;
+        }
 
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest request = new JsonObjectRequest(url, payload,
+
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray jsonArray) {
-
-                        for(int i = 0; i < jsonArray.length(); ++i) {
-                            try {
-                                JSONObject passData = jsonArray.getJSONObject(i);
-                                String deleteHash = passData.getString("_deleteHash");
-                                deleteImageFromImgur(imageIdF, deleteHash);
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e.toString());
-                            }
-                        }
+                    public void onResponse(JSONObject response) {
+                        Log.d("", response.toString());
                     }
                 },
 
                 new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                        String errorStr = "";
-
-                        if (volleyError.networkResponse != null) {
-                            switch (volleyError.networkResponse.statusCode) {
-
-                                case 404:
-                                    errorStr = (context.getString(R.string.not_found));
-                                    break;
-
-                                case 400:
-                                case 500:
-                                    errorStr =(context.getString(R.string.server_error));
-                                    break;
-
-                                default:
-                                    errorStr =(context.getString(R.string.unknown_error));
-                                    break;
-                            }
-                        } else {
-                            errorStr = (context.getString(R.string.no_internet));
-                            Log.d("ERROR", errorStr);
-                        }
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("", error.toString());
                     }
                 });
+
         VolleyManager.getRequestQueue(context).add(request);
     }
 
