@@ -54,7 +54,6 @@ public class ThreadManager {
      * executed on the same thread as this class. Such message types must
      * implement the UpdateUITask interface. The updateUI method will be run on
      * the UI thread.
-     * @see ThreadManager.UpdateUITask
      */
     public static final int UPDATE_UI_TASK = 1;
 
@@ -127,7 +126,7 @@ public class ThreadManager {
                     case ThreadManager.UPDATE_UI_TASK:
 
                         // Runs task on the UI thread (this thread).
-                        ((UpdateUITask) messageIn.obj).updateUI();
+                        ((Runnable) messageIn.obj).run();
                         break;
 
                     /* Pass along other messages from the UI */
@@ -145,31 +144,13 @@ public class ThreadManager {
     // INTERFACE METHODS //
     ///////////////////////
 
-    public static void doOnWorkerThread(Runnable backgroundTask) {
+    public static void runOnWorkerThread(Runnable backgroundTask) {
         mInstance.mHandler.obtainMessage(ThreadManager.START_RUNNABLE_TASK,
                 backgroundTask).sendToTarget();
     }
 
-    public static void doOnMainThread(UpdateUITask uiTask) {
+    public static void runOnMainThread(Runnable uiTask) {
         mInstance.mHandler.obtainMessage(
                 ThreadManager.UPDATE_UI_TASK, uiTask).sendToTarget();
-    }
-
-
-
-    /////////////////////
-    // TASK INTERFACES //
-    /////////////////////
-
-    /**
-     * Message type describing a message that needs to run on the UI thread;
-     * executed on the same thread as this class (UI thread). Such message types
-     * must implement the UpdateUITask interface. The updateUI method will be
-     * run on the UI thread.
-     */
-    public interface UpdateUITask {
-
-        /** Contains code that should be run on the UI thread. */
-        public void updateUI();
     }
 }
