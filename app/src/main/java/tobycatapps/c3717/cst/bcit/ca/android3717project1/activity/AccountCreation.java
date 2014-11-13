@@ -1,6 +1,7 @@
 package tobycatapps.c3717.cst.bcit.ca.android3717project1.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,5 +55,11 @@ public class AccountCreation extends Activity
         user.setPin(et_pin.getText().toString());
 
         //asynch task to send the user info to the DB
+
+        //on success account creation
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", true);
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }

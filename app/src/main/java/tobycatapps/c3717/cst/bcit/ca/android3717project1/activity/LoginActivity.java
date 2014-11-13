@@ -130,11 +130,7 @@ public class LoginActivity extends Activity {
         if(password.equals(pass))
         {
             Toast.makeText(LoginActivity.this, "seems legit", Toast.LENGTH_SHORT).show();
-
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("result", true);
-            setResult(RESULT_OK, returnIntent);
-            finish();
+            loginComplete();
         }
         else
         {
@@ -145,6 +141,26 @@ public class LoginActivity extends Activity {
     public void onRegisterLinkClick(View view)
     {
         Intent i = new Intent(this, AccountCreation.class);
-        startActivity(i);
+        startActivityForResult(i, 2);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 2) {
+            if(resultCode == RESULT_OK){
+                loginComplete();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Fill in later
+            }
+        }
+    }
+
+    public void loginComplete()
+    {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", true);
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }

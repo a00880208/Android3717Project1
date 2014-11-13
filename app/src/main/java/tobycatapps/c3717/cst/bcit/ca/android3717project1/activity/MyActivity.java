@@ -14,6 +14,7 @@ import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.dbAccess;
 
 
+
 public class MyActivity extends Activity {
 
     static SessionData session;
