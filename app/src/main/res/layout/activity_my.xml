@@ -55,13 +55,24 @@
             android:onClick="launchImageUpload" />
 
         <Button
+            android:id="@+id/btn_MyAccount"
+            android:src="@drawable/custom_button_normal"
+            android:background="@drawable/custom_button_normal"
+            android:text="@string/btn_myAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_imgUpload"
+            android:gravity="center"
+            android:onClick="launchMyAccount" />
+
+        <Button
             android:id="@+id/btn_logout"
             android:src="@drawable/custom_button_normal"
             android:background="@drawable/custom_button_normal"
             android:text="@string/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btn_imgUpload"
+            android:layout_below="@id/btn_MyAccount"
             android:gravity="center"
             android:onClick="launchLogout" />
 
@@ -75,17 +86,6 @@
             android:layout_below="@id/btn_imgUpload"
             android:gravity="center"
             android:onClick="launchLogin" />
-
-        <Button
-            android:id="@+id/btn_MyAccount"
-            android:src="@drawable/custom_button_normal"
-            android:background="@drawable/custom_button_normal"
-            android:text="@string/btn_myAccount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_logout"
-            android:gravity="center"
-            android:onClick="launchMyAccount" />
 
     </RelativeLayout>
 

@@ -220,15 +220,13 @@ public class MyActivity extends Activity {
     {
         session.isLoggedIn = true;
         session.userHandle = userhandle;
-        findViewById(R.id.btn_imgUpload).setEnabled(true);
-        findViewById(R.id.btn_MyAccount).setEnabled(true);
         findViewById(R.id.btn_login).setVisibility(View.GONE);
+        findViewById(R.id.btn_MyAccount).setVisibility(View.VISIBLE);
     }
 
     private void logoutButtonSet()
     {    session.isLoggedIn = false;
+        findViewById(R.id.btn_MyAccount).setVisibility(View.GONE);
         findViewById(R.id.btn_login).setVisibility(View.VISIBLE);
-        findViewById(R.id.btn_imgUpload).setEnabled(false);
-        findViewById(R.id.btn_MyAccount).setEnabled(false);
     }
 }

@@ -74,9 +74,9 @@
                 android:layout_weight="0.4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Pin"
                 android:id="@+id/ac_tv_label_pin"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="Pin"/>
 
             <EditText
                 android:layout_weight="0.6"
@@ -84,6 +84,8 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:id="@+id/ac_et_label_pin"
+                android:inputType="numberPassword"
+                android:ems="10"
                 android:maxLength="4" />
         </LinearLayout>
 
