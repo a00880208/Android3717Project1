@@ -210,7 +210,7 @@ public class ImageGridViewActivity extends Activity {
                         adapter.getArrayList().set(position, mErrorImage);
                         adapter.notifyDataSetChanged();
                         Log.e("ImageRequest.onErrorResponse",
-                                volleyError.getMessage());
+                                volleyError.toString());
                     }
                 }));
 

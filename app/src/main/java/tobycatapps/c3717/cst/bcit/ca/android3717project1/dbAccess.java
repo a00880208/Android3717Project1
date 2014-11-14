@@ -22,6 +22,8 @@ import org.json.JSONObject;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 /**
  * Created by Alex on 11/12/2014.
@@ -160,6 +162,44 @@ public class dbAccess {
                                 throw new RuntimeException(e.toString());
                             }
                         }
+                        userResponseListener.onResponse(imageUris);
+                    }
+                },
+
+                userErrorListener);
+
+        VolleyManager.getRequestQueue(c).add(request);
+    }
+
+    public static void getAllImages(Context c,
+                                     final Response.Listener<ArrayList<String>> userResponseListener,
+                                     Response.ErrorListener userErrorListener) {
+
+        // construct query
+        String url = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
+
+        // execute query and start the gridview activity
+        JsonArrayRequest request = new JsonArrayRequest(url,
+
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray data) {
+
+                        ArrayList<String> imageUris = new ArrayList<String>();
+                        Log.e("DATA", data.toString());
+
+                        for (int i = 0; i < data.length(); ++i) {
+                            try {
+                                JSONObject imageData = data.getJSONObject(i);
+                                imageUris.add(imageData.getString("URL"));
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e.toString());
+                            }
+                        }
+
+                        long seed = System.nanoTime();
+                        Collections.shuffle(imageUris, new Random(seed));
+
                         userResponseListener.onResponse(imageUris);
                     }
                 },
