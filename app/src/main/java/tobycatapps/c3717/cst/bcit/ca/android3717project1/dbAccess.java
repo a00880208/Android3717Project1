@@ -3,16 +3,27 @@ package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 /**
  * Created by Alex on 11/12/2014.
@@ -73,7 +84,7 @@ public class dbAccess {
             payload = null;
         }
 
-        JsonObjectRequest sr = new JsonObjectRequest(url, payload,
+        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, url, payload,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -93,37 +104,32 @@ public class dbAccess {
         final String imageIdF = imageId;
         final Context context = c;
 
-        String urlp1 = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?q={\"imgurid\":\"";
-        String urlp2 = "\"}&apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
-        String url = urlp1 + imageIdF + urlp2;
+        String url = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx&q={\"imgurid\":\""+imageIdF+"\"}";
 
-        JSONObject payload;
+        JSONArray payload;
         try {
-            payload = new JSONObject(
-                    "{\"imgurid\":\""+imageIdF+"\"," +
-                            "\"URL\":\"http://i.imgur.com/"+imageId+".jpg\"," +
-                            "\"Uploader\":\""+"\"}");
+            payload = new JSONArray("[]");
         } catch (Exception e) {
             payload = null;
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(url, payload,
+        MyJsonObjectRequest request = new MyJsonObjectRequest(Request.Method.PUT, url, payload,
 
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("", response.toString());
+                        Log.d("deletion successful", response.toString());
                     }
                 },
 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("", error.toString());
+                        Log.e("deletion failed", error.toString());
                     }
                 });
 
-        VolleyManager.getRequestQueue(context).add(request);
+        VolleyManager.addRequest(context, request);
     }
 
     public static void getUserImages(Context c, String uploaderName,
@@ -165,4 +171,68 @@ public class dbAccess {
         VolleyManager.getRequestQueue(c).add(request);
     }
 
+    public static void getAllImages(Context c,
+                                     final Response.Listener<ArrayList<String>> userResponseListener,
+                                     Response.ErrorListener userErrorListener) {
+
+        // construct query
+        String url = "https://api.mongolab.com/api/1/databases/petbitsdb/collections/image?apiKey=vPbnh_1kRwQBVtry-B6IiUh_yXYZHbZx";
+
+        // execute query and start the gridview activity
+        JsonArrayRequest request = new JsonArrayRequest(url,
+
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray data) {
+
+                        ArrayList<String> imageUris = new ArrayList<String>();
+                        Log.e("DATA", data.toString());
+
+                        for (int i = 0; i < data.length(); ++i) {
+                            try {
+                                JSONObject imageData = data.getJSONObject(i);
+                                imageUris.add(imageData.getString("URL"));
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e.toString());
+                            }
+                        }
+
+                        long seed = System.nanoTime();
+                        Collections.shuffle(imageUris, new Random(seed));
+
+                        userResponseListener.onResponse(imageUris);
+                    }
+                },
+
+                userErrorListener);
+
+        VolleyManager.getRequestQueue(c).add(request);
+    }
+
+    private static class MyJsonObjectRequest extends JsonRequest<JSONObject> {
+
+        public MyJsonObjectRequest(int method, String url, JSONArray jsonPayload,
+                Response.Listener<JSONObject> response,
+                Response.ErrorListener errorListener) {
+
+            super(method, url,
+                    (jsonPayload == null) ? null : jsonPayload.toString(),
+                    response, errorListener);
+
+        }
+
+        @Override
+        protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+            try {
+                String jsonString =
+                        new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                return Response.success(new JSONObject(jsonString),
+                        HttpHeaderParser.parseCacheHeaders(response));
+            } catch (UnsupportedEncodingException e) {
+                return Response.error(new ParseError(e));
+            } catch (JSONException je) {
+                return Response.error(new ParseError(je));
+            }
+        }
+    }
 }

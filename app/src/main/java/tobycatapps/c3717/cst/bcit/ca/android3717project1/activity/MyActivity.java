@@ -3,11 +3,13 @@ package tobycatapps.c3717.cst.bcit.ca.android3717project1.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 
@@ -70,91 +72,25 @@ public class MyActivity extends Activity {
 
     public void launchRandomPets(View view)
     {
-        Intent i = new Intent(this, UserImageGridViewActivity.class);
-        ArrayList<String> imageUris = new ArrayList<String>();
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
-        imageUris.add("http://i.imgur.com/vuHylTZ.jpg");
-        imageUris.add("http://i.imgur.com/pyxMupg.jpg");
-        imageUris.add("http://i.imgur.com/7qjvKyi.jpg");
-        imageUris.add("http://i.imgur.com/y6BBAuW.jpg");
-        i.putExtra(ImageGridViewActivity.KEY_IMAGE_URIS, imageUris);
-        startActivity(i);
+        dbAccess.getAllImages(this,
+
+                new Response.Listener<ArrayList<String>>() {
+                    @Override
+                    public void onResponse(ArrayList<String> response) {
+
+                        Intent i = new Intent(MyActivity.this, ImageGridViewActivity.class);
+                        i.putExtra(ImageGridViewActivity.KEY_IMAGE_URIS, response);
+                        startActivity(i);
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error launching random pets", error.toString());
+                    }
+                });
     }
 
     public void launchWeeklyPets(View view) {
