@@ -42,11 +42,10 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
         //call parent constructor
         super.onCreate(savedInstanceState);
         findViewById(R.id.btn_addImage).setVisibility(View.VISIBLE);
-        //create a HashMap which contains all the images in the GridView that have been selected
-        final HashMap<Integer, Boolean> mSelection = new HashMap<Integer, Boolean>();
+
         //an adapter class that holds images
         myAdapter = (ArrayListAdapter<Bitmap>) mImageGridView.getAdapter();
-        mImageGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
+
         mImageGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
                 //dialog builder

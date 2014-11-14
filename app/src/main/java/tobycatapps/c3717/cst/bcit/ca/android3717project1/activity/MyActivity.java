@@ -70,7 +70,7 @@ public class MyActivity extends Activity {
 
     public void launchRandomPets(View view)
     {
-        Intent i = new Intent(this, UserImageGridViewActivity.class);
+        Intent i = new Intent(this, ImageGridViewActivity.class);
         ArrayList<String> imageUris = new ArrayList<String>();
         imageUris.add("http://i.imgur.com/SV7nyMD.jpg");
         imageUris.add("http://i.imgur.com/vuHylTZ.jpg");

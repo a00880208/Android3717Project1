@@ -1,6 +1,7 @@
 package tobycatapps.c3717.cst.bcit.ca.android3717project1;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.TypedValue;
 
 /**
@@ -73,9 +74,8 @@ public class M {
      */
     public static String getUriID(String uri)
     {
-        int start = "http://i.imgur.com".length();
-        int end = "i.imgur.com/XXXXXXX".length();
-        String id = uri.substring(start, end);
-        return id;
+        int start = uri.indexOf("i.imgur.com/") + "i.imgur.com/".length();
+        int end = start + "XXXXXXX".length();
+        return uri.substring(start, end);
     }
 }
