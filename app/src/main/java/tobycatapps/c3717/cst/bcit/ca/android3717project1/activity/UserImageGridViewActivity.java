@@ -111,7 +111,7 @@ public class UserImageGridViewActivity extends ImageGridViewActivity
                 {
                     Toast.makeText(getApplicationContext(), imageId, Toast.LENGTH_SHORT).show();
                     //get the new list of URI
-                    String temp = "i.imgur.com/"+imageId+".jpg";
+                    String temp = "http://i.imgur.com/"+imageId+".jpg";
                     mImageURLs.add(temp);
                     myAdapter.getArrayList().add(null);
                     loadImage(temp, myAdapter, mImageURLs.size() - 1);

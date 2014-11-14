@@ -25,6 +25,7 @@ import com.android.volley.toolbox.ImageRequest;
 import java.util.ArrayList;
 
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.M;
+import tobycatapps.c3717.cst.bcit.ca.android3717project1.ThreadManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.VolleyManager;
 import tobycatapps.c3717.cst.bcit.ca.android3717project1.R;
 
@@ -226,20 +227,43 @@ public class ImageGridViewActivity extends Activity {
     private class MyOnScrollListener implements AbsListView.OnScrollListener {
 
         /** lower bound index of the AdapterView item that we've seen */
-        private int mMinVisibleItem = 0;
+        private int mMinVisibleItem;
 
         /** upper bound index of the AdapterView item that we've seen */
-        private int mMaxVisibleItem = 0;
+        private int mMaxVisibleItem;
 
+        /** current scroll state */
+        private int mScrollState;
+
+        /** reference to adapter that listener will update onScroll */
         private final ArrayListAdapter<Bitmap> mAdapter;
 
+        /** CONSTRUCTOR */
         public MyOnScrollListener(ArrayListAdapter<Bitmap> adapter) {
-            this.mAdapter = adapter;
+            mMinVisibleItem = 0;
+            mMaxVisibleItem = 0;
+            mScrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+            mAdapter = adapter;
+            ThreadManager.runOnWorkerThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        Log.e("trouble sleeping", e.toString());
+                    }
+                    mScrollState = -1;
+                    onScroll(null, mImageGridView.getFirstVisiblePosition(),
+                            mImageGridView.getLastVisiblePosition(),
+                            mAdapter.getCount());
+                    mScrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+                }
+            });
         }
 
         @Override
         public void onScrollStateChanged(AbsListView absListView, int i) {
-            // do nothing
+            mScrollState = i;
         }
 
         /**
@@ -256,36 +280,40 @@ public class ImageGridViewActivity extends Activity {
         public void onScroll(AbsListView view, int firstVisibleItem,
                              int visibleItemCount, int totalItemCount) {
 
-            // load all newly visible items that are before what we've
-            // last seen
-            for (int visibleItem = firstVisibleItem;
-                    visibleItem <= mMinVisibleItem; ++visibleItem) {
+            if (mScrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
 
-                if (visibleItem >= 0 && visibleItem < totalItemCount) {
-                    String imageURL = M.toThumbnail(
-                            mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
-                    loadImage(imageURL, mAdapter, visibleItem);
+                // load all newly visible items that are before what we've
+                // last seen
+                for (int visibleItem = firstVisibleItem;
+                     visibleItem <= mMinVisibleItem; ++visibleItem) {
+
+                    if (visibleItem >= 0 && visibleItem < totalItemCount) {
+                        String imageURL = M.toThumbnail(
+                                mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
+                        loadImage(imageURL, mAdapter, visibleItem);
+                    }
                 }
-            }
 
-            // load all newly visible items that are after what we've
-            // last seen
-            int lastVisibleItem = Math.min(
-                    firstVisibleItem+visibleItemCount,
-                    totalItemCount-1);
-            for (int visibleItem = lastVisibleItem;
-                    visibleItem > mMaxVisibleItem; --visibleItem) {
+                // load all newly visible items that are after what we've
+                // last seen
+                int lastVisibleItem = Math.min(
+                        firstVisibleItem + visibleItemCount,
+                        totalItemCount - 1);
+                for (int visibleItem = lastVisibleItem;
+                     visibleItem > mMaxVisibleItem; --visibleItem) {
 
-                if (visibleItem >= 0 && visibleItem < totalItemCount) {
-                    String imageURL = M.toThumbnail(
-                            mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
-                    loadImage(imageURL, mAdapter, visibleItem);
+                    if (visibleItem >= 0 && visibleItem < totalItemCount) {
+                        String imageURL = M.toThumbnail(
+                                mImageURLs.get(visibleItem), M.ImageSize.BIG_SQR);
+                        loadImage(imageURL, mAdapter, visibleItem);
+                    }
                 }
-            }
 
-            // update what we've last seen
-            mMinVisibleItem = Math.min(firstVisibleItem, mMinVisibleItem);
-            mMaxVisibleItem = Math.max(lastVisibleItem, mMinVisibleItem);
+                // update what we've last seen
+                mMinVisibleItem = Math.min(firstVisibleItem, mMinVisibleItem);
+                mMaxVisibleItem = Math.max(lastVisibleItem, mMinVisibleItem);
+
+            }
         }
     }
 
