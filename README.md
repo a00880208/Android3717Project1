@@ -1,6 +1,7 @@
 PetBits
+====
 by Alex Lam, Eric Tsang, Sebastian Pelka
-=====================================================================================
+
 Project Intent
 The three of us had decided to put some time during our school year and put together an application to challenge our android programming skills.
 We had allocated 4 months of time to work on this while attending BCIT and this is what we have put together.
