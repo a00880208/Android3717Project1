@@ -35,3 +35,7 @@ During the time we have put aside to work on this project, we have de-scoped our
     This idea was replaced by user information storage in MongoDB. We had no plans to continue with the Google + idea, because we decided we could learn more by making a login system from scratch.
   4) No Like or upvote for pictures
     This was something we really wanted to keep in, but dropped late in the development cycle due to time constraints. This would consist of a “thumbs up” or “heart” icon which the user could click if they liked the image they saw.
+
+
+Final Product:
+https://www.youtube.com/watch?v=gaiug6owcj8&list=UU-ixExa1K3_p4sme1ozSEsg
