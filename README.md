@@ -38,4 +38,4 @@ During the time we have put aside to work on this project, we have de-scoped our
 
 
 Final Product:
-https://www.youtube.com/watch?v=gaiug6owcj8&list=UU-ixExa1K3_p4sme1ozSEsg
+https://www.youtube.com/watch?v=qCZY35wghnw&feature=youtu.be
